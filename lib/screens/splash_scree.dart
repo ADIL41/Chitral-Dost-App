@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.tealAccent[300],
+        color: Colors.blue,
         child: Text(
           'CHITRAL DOST',
 

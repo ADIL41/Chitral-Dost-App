@@ -6,17 +6,19 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-            const.teal[900],
-            const.teal[800],
-            const.teal[400],
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        leading: Icon(Icons.miscellaneous_services),
+        title: Text(
+          'CHITRAL DOST',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
+      ),
+
+      body: Card(
+        color: const Color.fromARGB(255, 131, 71, 71),
+        margin: EdgeInsets.all(12),
+        elevation: 2,
       ),
     );
   }
