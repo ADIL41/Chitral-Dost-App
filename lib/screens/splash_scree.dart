@@ -1,41 +1,32 @@
-import 'dart:async';
-
-import 'package:chitral_dost_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        // ignore: non_constant_identifier_names
-        MaterialPageRoute(builder: (Context) => HomeScreen()),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.blue,
-        child: Text(
-          'CHITRAL DOST',
-
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+      backgroundColor: Color(0xFF00796B), // teal background
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/logo.png', height: 150),
+            SizedBox(height: 20),
+            Text(
+              "Chitral Dost",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Your Trusted Partner for Home Services",
+              style: TextStyle(fontSize: 16, color: Colors.orangeAccent),
+            ),
+          ],
         ),
       ),
     );
