@@ -1,4 +1,4 @@
-import 'package:chitral_dost_app/screens/home_screen.dart';
+import 'package:chitral_dost_app/screens/splash_scree.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
