@@ -15,7 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print('Email: $email, Password: $password');
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Logging in...')));
@@ -25,9 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login', style: TextStyle(color: Colors.white)),
-      ),
+      appBar: AppBar(title: Text('Login')),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
