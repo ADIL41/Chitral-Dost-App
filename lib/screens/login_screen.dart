@@ -8,46 +8,55 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
-
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Logging in...')));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                onSaved: (value) => email = value!,
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your email' : null,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 206, 8, 196),
+        title: Text('Login'),
+        centerTitle: true,
+      ),
+
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsetsGeometry.all(16),
+
+          child: Card(
+            color: const Color.fromARGB(255, 206, 8, 196),
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(color: Colors.white),
+                      hintText: 'enter your email',
+                      prefixIcon: Icon(Icons.email),
+                    ),
+                  ),
+                  SizedBox(height: 25),
+
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.white),
+                      hintText: 'enter your passward',
+                      prefixIcon: Icon(Icons.lock),
+                    ),
+                  ),
+                  SizedBox(height: 100),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Login', style: TextStyle(fontSize: 15)),
+                  ),
+                ],
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                onSaved: (value) => password = value!,
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your password' : null,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(onPressed: _login, child: Text('Login')),
-            ],
+            ),
           ),
         ),
       ),
