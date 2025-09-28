@@ -1,3 +1,4 @@
+import 'package:chitral_dost_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,13 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsetsGeometry.all(16),
+          padding: EdgeInsets.all(16),
 
           child: Card(
             color: const Color.fromARGB(255, 206, 8, 196),
             elevation: 4,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.circular(12),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -42,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 25),
 
                   TextFormField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       labelStyle: TextStyle(color: Colors.white),
@@ -51,7 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 100),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+                    },
                     child: Text('Login', style: TextStyle(fontSize: 15)),
                   ),
                 ],
