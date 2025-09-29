@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:chitral_dost_app/screens/login_screen.dart';
-import 'package:chitral_dost_app/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
