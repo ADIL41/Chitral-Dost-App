@@ -13,53 +13,59 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 206, 8, 196),
-        title: Text('Login'),
+        // Use theme color instead of hardcoding
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text('Login'),
         centerTitle: true,
       ),
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
 
           child: Card(
-            color: const Color.fromARGB(255, 206, 8, 196),
+            // Use theme color for card background
+            color: Theme.of(context).primaryColor,
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintText: 'enter your email',
+                      hintText: 'Enter your email',
                       prefixIcon: Icon(Icons.email),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
 
                   TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Password',
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintText: 'enter your passward',
+                      hintText: 'Enter your password',
                       prefixIcon: Icon(Icons.lock),
                     ),
                   ),
-                  SizedBox(height: 100),
+
+                  const SizedBox(height: 100),
+
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        MaterialPageRoute(builder: (context) => const HomeScreen()),
                       );
                     },
-                    child: Text('Login', style: TextStyle(fontSize: 15)),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(fontSize: 15),
+                    ),
                   ),
                 ],
               ),
