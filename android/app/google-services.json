@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934098347205",
+    "project_id": "chitral-dost",
+    "storage_bucket": "chitral-dost.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934098347205:android:1a5404a939f4f168a03cac",
+        "android_client_info": {
+          "package_name": "com.example.chitral_dost_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEqsmGxPju4pj4kKiOrjELolWpXClyk6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
