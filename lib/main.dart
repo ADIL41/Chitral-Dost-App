@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Chitral Dost',
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.DarkTheme,
+      themeMode: ThemeMode.system,
       home: const SplashScreen(),
     );
   }

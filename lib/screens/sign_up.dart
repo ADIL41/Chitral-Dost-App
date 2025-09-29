@@ -120,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                           if (_formKey.currentState!.validate()) {
                             // In a real app, you would perform the sign-up action here.
                             // For now, after successful validation, we navigate to the LoginScreen.
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const LoginScreen(),
@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                   TextButton(
                     onPressed: () {
                       // Navigate to the LoginScreen when user clicks "Login"
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const LoginScreen(),
