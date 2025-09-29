@@ -1,4 +1,4 @@
-import 'package:chitral_dost_app/screens/app_theme.dart';
+import 'package:chitral_dost_app/theme/app_theme.dart';
 import 'package:chitral_dost_app/screens/splash_scree.dart';
 import 'package:flutter/material.dart';
 
