@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chitral_dost_app/screens/login_screen.dart';
+import 'package:chitral_dost_app/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),
       );

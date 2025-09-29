@@ -1,15 +1,14 @@
-import 'package:chitral_dost_app/screens/home_screen.dart';
-import 'package:chitral_dost_app/screens/sign_up.dart';
+import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -62,11 +61,25 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: verticalSpace(0.05)),
 
-              // Login Form
+              // Sign Up Form
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                        hintText: 'Enter your Name',
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your Name";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: verticalSpace(0.03)),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Email',
@@ -98,22 +111,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: verticalSpace(0.05)),
 
-                    // Login Button
+                    // Sign Up Button (Changed text from "Sign In" to "Sign Up")
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
+                          // Check if form is valid
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushReplacement(
+                            // In a real app, you would perform the sign-up action here.
+                            // For now, after successful validation, we navigate to the LoginScreen.
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) => const LoginScreen(),
                               ),
                             );
                           }
                         },
                         child: Text(
-                          "Login",
+                          // **This is the main change: "Sign Up"**
+                          "Sign Up",
                           style: TextStyle(fontSize: width * 0.045),
                         ),
                       ),
@@ -124,27 +141,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
               SizedBox(height: verticalSpace(0.03)),
 
-              // Sign Up Option
+              // Already have an account? (This section was missing)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Don’t have an account? ",
-                    style: TextStyle(fontSize: width * 0.04),
-                  ),
-                  GestureDetector(
-                    onTap: () {
+                  Text("Already have an account?"),
+                  TextButton(
+                    onPressed: () {
+                      // Navigate to the LoginScreen when user clicks "Login"
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUp()),
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
                       );
                     },
                     child: Text(
-                      "Sign Up",
+                      "Login",
                       style: TextStyle(
                         fontSize: width * 0.045,
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),

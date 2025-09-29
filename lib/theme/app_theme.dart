@@ -16,14 +16,8 @@ class AppTheme {
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
-      bodyMedium: TextStyle(
-        fontSize: 16,
-        color: Colors.orangeAccent,
-      ),
-      bodySmall: TextStyle(
-        fontSize: 14,
-        color: Colors.black87,
-      ),
+      bodyMedium: TextStyle(fontSize: 16, color: Colors.orangeAccent),
+      bodySmall: TextStyle(fontSize: 14, color: Colors.black87),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
