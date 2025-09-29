@@ -14,12 +14,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 📏 Get screen size
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
 
-    // 🔑 Responsive paddings and sizes
     double verticalSpace(double fraction) => height * fraction;
     double horizontalPadding = width * 0.08;
 
@@ -33,11 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: verticalSpace(0.08)),
 
-              // App Logo
+              // Logo
               Center(
                 child: Image.asset(
                   'assets/images/logo1.png',
-                  height: height * 0.18, // logo scales with screen
+                  height: height * 0.18,
                 ),
               ),
               SizedBox(height: verticalSpace(0.03)),
@@ -46,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Text(
                 "Chitral Dost",
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontSize: width * 0.08, // responsive font
+                  fontSize: width * 0.08,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
@@ -104,11 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushReplacement(
+                            Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const HomeScreen(),
                               ),
+                              (Route<dynamic> route) => false,
                             );
                           }
                         },
@@ -121,7 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-
               SizedBox(height: verticalSpace(0.03)),
 
               // Sign Up Option
@@ -134,9 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUp()),
+                        MaterialPageRoute(builder: (context) => const SignUp()),
                       );
                     },
                     child: Text(

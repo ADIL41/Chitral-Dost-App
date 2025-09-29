@@ -13,12 +13,10 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    // 📏 Get screen size
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
 
-    // 🔑 Responsive paddings and sizes
     double verticalSpace(double fraction) => height * fraction;
     double horizontalPadding = width * 0.08;
 
@@ -32,11 +30,11 @@ class _SignUpState extends State<SignUp> {
             children: [
               SizedBox(height: verticalSpace(0.08)),
 
-              // App Logo
+              // Logo
               Center(
                 child: Image.asset(
                   'assets/images/logo1.png',
-                  height: height * 0.18, // logo scales with screen
+                  height: height * 0.18,
                 ),
               ),
               SizedBox(height: verticalSpace(0.03)),
@@ -45,7 +43,7 @@ class _SignUpState extends State<SignUp> {
               Text(
                 "Chitral Dost",
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontSize: width * 0.08, // responsive font
+                  fontSize: width * 0.08,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
@@ -80,6 +78,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     SizedBox(height: verticalSpace(0.03)),
+
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Email',
@@ -111,15 +110,13 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(height: verticalSpace(0.05)),
 
-                    // Sign Up Button (Changed text from "Sign In" to "Sign Up")
+                    // Sign Up Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Check if form is valid
                           if (_formKey.currentState!.validate()) {
-                            // In a real app, you would perform the sign-up action here.
-                            // For now, after successful validation, we navigate to the LoginScreen.
+                            // After successful sign-up, go to Login screen
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -129,7 +126,6 @@ class _SignUpState extends State<SignUp> {
                           }
                         },
                         child: Text(
-                          // **This is the main change: "Sign Up"**
                           "Sign Up",
                           style: TextStyle(fontSize: width * 0.045),
                         ),
@@ -138,17 +134,15 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
-
               SizedBox(height: verticalSpace(0.03)),
 
-              // Already have an account? (This section was missing)
+              // Already have an account?
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
+                  const Text("Already have an account?"),
                   TextButton(
                     onPressed: () {
-                      // Navigate to the LoginScreen when user clicks "Login"
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
