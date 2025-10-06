@@ -33,7 +33,7 @@ class _SignUpState extends State<SignUp> {
               // Logo
               Center(
                 child: Image.asset(
-                  'assets/images/logo1.png',
+                  'assets/images/logo.png',
                   height: height * 0.18,
                 ),
               ),
@@ -41,7 +41,7 @@ class _SignUpState extends State<SignUp> {
 
               // App Name
               Text(
-                "Chitral Dost",
+                "Create Your Account",
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                   fontSize: width * 0.08,
                   color: Theme.of(context).primaryColor,
@@ -77,6 +77,21 @@ class _SignUpState extends State<SignUp> {
                         return null;
                       },
                     ),
+                    SizedBox(height: verticalSpace(0.03)),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Phone Number',
+                        hintText: 'enter your phone number',
+                        prefixIcon: Icon(Icons.phone),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter your number";
+                        }
+                        return null;
+                      },
+                    ),
+
                     SizedBox(height: verticalSpace(0.03)),
 
                     TextFormField(
