@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:chitral_dost_app/screens/welcome_sceen.dart';
 import 'package:flutter/material.dart';
 
