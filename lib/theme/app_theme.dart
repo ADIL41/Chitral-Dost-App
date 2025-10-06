@@ -22,7 +22,7 @@ class AppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         foregroundColor: Colors.white,
 
         shape: RoundedRectangleBorder(
