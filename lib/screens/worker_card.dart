@@ -28,13 +28,18 @@ class WorkerCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 4),
-              Text(
-                'Connect with available skilled professionals for immediate service requests.',
-                style: TextStyle(fontSize: 13, color: Colors.white54),
+              Flexible(
+                child: Text(
+                  'Connect with available skilled professionals. ',
+                  style: TextStyle(fontSize: 13, color: Colors.white54),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
+                ),
               ),
               Spacer(),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.centerLeft,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
