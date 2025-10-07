@@ -1,3 +1,4 @@
+import 'package:chitral_dost_app/screens/worker_profile.dart';
 import 'package:flutter/material.dart';
 
 class WorkerCard extends StatelessWidget {
@@ -53,7 +54,12 @@ class WorkerCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WorkerProfile()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightGreen,
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),

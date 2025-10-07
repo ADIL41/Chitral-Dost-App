@@ -19,10 +19,7 @@ class HomeScreen extends StatelessWidget {
             icon: Icon(Icons.notification_add, color: Colors.white),
             onPressed: () {},
           ),
-          CircleAvatar(
-            backgroundColor: Colors.orangeAccent[200],
-            child: Icon(Icons.person, color: Colors.white, size: 30),
-          ),
+          CircleAvatar(backgroundImage: AssetImage('assets/images/man.png')),
           SizedBox(width: 10),
         ],
         title: Text(
@@ -89,10 +86,10 @@ class HomeScreen extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   return ServiceTile(
-                    icon: Icons.miscellaneous_services,
+                    icon: Icons.car_repair,
                     label: 'Service ${index + 1}',
                     backgroundColor: Colors.teal.shade800,
-                    avatarColor: Colors.blue.shade200,
+                    avatarColor: Colors.orangeAccent.shade200,
                   );
                 },
               ),

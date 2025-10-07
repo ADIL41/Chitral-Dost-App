@@ -79,6 +79,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(height: verticalSpace(0.03)),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
                         hintText: 'enter your phone number',
