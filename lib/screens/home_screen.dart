@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.teal[900],
+                color: Colors.black,
               ),
             ),
             SizedBox(height: 12),
@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 10,
+                itemCount: 8,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   crossAxisSpacing: 12,
@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.teal[900],
+                color: Colors.black,
               ),
             ),
             SizedBox(height: 12),
@@ -119,10 +119,10 @@ class HomeScreen extends StatelessWidget {
 
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Colors.white70,
+        unselectedItemColor: Colors.teal[800],
         backgroundColor: Colors.teal[800],
         showSelectedLabels: true,
-        showUnselectedLabels: false,
+        showUnselectedLabels: true,
         iconSize: 25,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
