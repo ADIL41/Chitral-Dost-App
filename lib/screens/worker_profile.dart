@@ -48,7 +48,7 @@ class _WorkerProfileState extends State<WorkerProfile> {
                   height: 320,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color: Colors.teal[800],
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -107,7 +107,7 @@ class _WorkerProfileState extends State<WorkerProfile> {
                           // Action when button is pressed
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.lightGreen,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
                             vertical: 12,
@@ -138,7 +138,9 @@ class _WorkerProfileState extends State<WorkerProfile> {
               ],
             ),
           ),
+          
         ),
+        
       ),
     );
   }
