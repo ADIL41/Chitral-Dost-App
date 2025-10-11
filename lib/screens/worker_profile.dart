@@ -1,3 +1,5 @@
+import 'package:chitral_dost_app/screens/review_card.dart';
+import 'package:chitral_dost_app/screens/skill_chip.dart';
 import 'package:flutter/material.dart';
 
 class WorkerProfile extends StatefulWidget {
@@ -8,6 +10,29 @@ class WorkerProfile extends StatefulWidget {
 }
 
 class _WorkerProfileState extends State<WorkerProfile> {
+  final List<Map<String, dynamic>> Reviews = [
+    {
+      'name': 'Ayesha Khan',
+      'rating': 5,
+      'comment':
+          'Muhammad was excellent! Fixed our wiring issue quickly and professionally.',
+      'timeAgo': '2 days ago',
+    },
+    {
+      'name': 'Ali Raza',
+      'rating': 5,
+      'comment':
+          'Very reliable and efficient. My AC unit is working perfectly after his service.',
+      'timeAgo': '1 week ago',
+    },
+    {
+      'name': 'Fatima Zohra',
+      'rating': 3,
+      'comment':
+          'Good service, but arrived a little late. The repair was done well.',
+      'timeAgo': '2 weeks ago',
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,111 +61,187 @@ class _WorkerProfileState extends State<WorkerProfile> {
           const SizedBox(width: 10),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 0),
-                  height: 320,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 60), // space for avatar
-                      const Text(
-                        'Muhammad Asif',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orangeAccent,
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 0),
+                      height: 300,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
                         ),
-                        textAlign: TextAlign.center,
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      const SizedBox(height: 5),
-                      const Text(
-                        'Certified Electrician & Home Repair Specialist',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.orangeAccent,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          for (int i = 0; i < 4; i++)
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 2),
-                              child: Icon(
-                                Icons.star,
+                          const SizedBox(height: 60), // space for avatar
+                          const Text(
+                            'Muhammad Asif',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 5),
+                          const Text(
+                            'Certified Electrician & Home Repair Specialist',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.orangeAccent,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              for (int i = 0; i < 4; i++)
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 2),
+                                  child: Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 20,
+                                  ),
+                                ),
+                              const Icon(
+                                Icons.star_border_outlined,
                                 color: Colors.amber,
                                 size: 20,
                               ),
-                            ),
-                          const Icon(
-                            Icons.star_border_outlined,
-                            color: Colors.amber,
-                            size: 20,
+                              const SizedBox(width: 10),
+                              const Text(
+                                '4.8 (120 reviews)',
+                                style: TextStyle(
+                                  color: Colors.amber,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            '4.8 (120 reviews)',
-                            style: TextStyle(
-                              color: Colors.amber,
-                              fontWeight: FontWeight.bold,
+                          const SizedBox(height: 15),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Action when button is pressed
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.lightGreen,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text(
+                              'Available for Hire',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action when button is pressed
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightGreen,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 12,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text(
-                          'Available for Hire',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                    ),
+                    const Positioned(
+                      top: 0,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('assets/images/man.png'),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const Positioned(
-                  top: 0,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/images/man.png'),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              height: 300,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Skills & Expertise',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        SkillChip(label: 'Electrical Wiring'),
+                        SkillChip(label: 'Fixture Installation'),
+                        SkillChip(label: 'Appliance Repair'),
+                        SkillChip(label: 'Safety Inspections'),
+                        SkillChip(label: 'Troubleshooting'),
+                        SkillChip(label: 'General Handyman'),
+                        SkillChip(label: 'Panel Upgrades'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 12),
+          Expanded(
+            child: ListView.builder(
+              itemCount: Reviews.length,
+              itemBuilder: (context, index) {
+                final review = Reviews[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: ReviewCard(
+                    name: review['name'],
+                    rating: review['rating'],
+                    comment: review['comment'],
+                    timeAgo: review['timeAgo'],
+                  ),
+                );
+              },
+            ),
+          ),
+
+          SizedBox(height: 15),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
+            child: Text('Booking Now'),
+          ),
+        ],
       ),
     );
   }
