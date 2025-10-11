@@ -6,7 +6,8 @@ class ServiceTile extends StatelessWidget {
   final Color backgroundColor;
   final Color avatarColor;
 
-  const ServiceTile({super.key, 
+  const ServiceTile({
+    super.key,
     required this.icon,
     required this.label,
     required this.backgroundColor,
@@ -17,7 +18,9 @@ class ServiceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor,
+        gradient: LinearGradient(
+          colors: [Color(0xfff5f7fa), Color(0xffc3cfe2)],
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -26,11 +29,7 @@ class ServiceTile extends StatelessWidget {
           CircleAvatar(
             radius: 30,
             backgroundColor: avatarColor,
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 30,
-            ),
+            child: Icon(icon, color: Colors.white, size: 30),
           ),
           SizedBox(height: 10),
           Text(
@@ -38,7 +37,7 @@ class ServiceTile extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ],

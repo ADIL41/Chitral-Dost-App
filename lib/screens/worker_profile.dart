@@ -48,7 +48,9 @@ class _WorkerProfileState extends State<WorkerProfile> {
                   height: 320,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.teal[800],
+                    gradient: LinearGradient(
+                      colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
+                    ),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -138,9 +140,7 @@ class _WorkerProfileState extends State<WorkerProfile> {
               ],
             ),
           ),
-          
         ),
-        
       ),
     );
   }

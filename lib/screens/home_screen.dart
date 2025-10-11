@@ -63,7 +63,9 @@ class HomeScreen extends StatelessWidget {
             // Service Grid
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                gradient: LinearGradient(
+                  colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
+                ),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(

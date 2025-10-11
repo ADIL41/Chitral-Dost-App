@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Don’t have an account? ",
                     style: TextStyle(fontSize: width * 0.04),
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       Navigator.push(
                         context,

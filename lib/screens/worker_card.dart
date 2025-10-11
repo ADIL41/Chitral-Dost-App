@@ -15,7 +15,7 @@ class WorkerCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.teal.shade800, Colors.teal.shade600],
+            colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -35,7 +35,7 @@ class WorkerCard extends StatelessWidget {
               'Find a Worker Now',
               style: TextStyle(
                 fontSize: screenWidth * 0.045,
-                color: Colors.white70,
+                color: Colors.orangeAccent,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -44,7 +44,7 @@ class WorkerCard extends StatelessWidget {
               'Connect with available skilled professionals for immediate service requests.',
               style: TextStyle(
                 fontSize: screenWidth * 0.035,
-                color: Colors.white54,
+                color: Colors.black,
               ),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
