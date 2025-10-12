@@ -189,15 +189,32 @@ class _WorkerProfileState extends State<WorkerProfile> {
             ),
           ),
 
-          SizedBox(height: 12),
-
           SizedBox(height: 15),
           ElevatedButton(
-            
             onPressed: () {},
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.lightGreen,
+              fixedSize: Size(275, 50),
+            ),
             child: Text('Booking Now'),
           ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.orangeAccent,
+        unselectedItemColor: Colors.teal[800],
+        backgroundColor: Colors.teal[800],
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        iconSize: 25,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_online),
+            label: 'Booking',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
         ],
       ),
     );
