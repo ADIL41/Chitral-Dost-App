@@ -1,4 +1,3 @@
-import 'package:chitral_dost_app/screens/review_card.dart';
 import 'package:chitral_dost_app/screens/skill_chip.dart';
 import 'package:flutter/material.dart';
 
@@ -10,29 +9,6 @@ class WorkerProfile extends StatefulWidget {
 }
 
 class _WorkerProfileState extends State<WorkerProfile> {
-  final List<Map<String, dynamic>> Reviews = [
-    {
-      'name': 'Ayesha Khan',
-      'rating': 5,
-      'comment':
-          'Muhammad was excellent! Fixed our wiring issue quickly and professionally.',
-      'timeAgo': '2 days ago',
-    },
-    {
-      'name': 'Ali Raza',
-      'rating': 5,
-      'comment':
-          'Very reliable and efficient. My AC unit is working perfectly after his service.',
-      'timeAgo': '1 week ago',
-    },
-    {
-      'name': 'Fatima Zohra',
-      'rating': 3,
-      'comment':
-          'Good service, but arrived a little late. The repair was done well.',
-      'timeAgo': '2 weeks ago',
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,26 +190,6 @@ class _WorkerProfileState extends State<WorkerProfile> {
           ),
 
           SizedBox(height: 12),
-          Expanded(
-            child: ListView.builder(
-              itemCount: Reviews.length,
-              itemBuilder: (context, index) {
-                final review = Reviews[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: ReviewCard(
-                    name: review['name'],
-                    rating: review['rating'],
-                    comment: review['comment'],
-                    timeAgo: review['timeAgo'],
-                  ),
-                );
-              },
-            ),
-          ),
 
           SizedBox(height: 15),
           ElevatedButton(
