@@ -2,8 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:chitral_dost_app/screens/service_tile.dart';
 import 'package:chitral_dost_app/screens/worker_card.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  final List<Widget> _screens = [
+    Center(child: Text("Home Screen")),
+    Center(child: Text("Booking Screen")),
+    Center(child: Text("Profile Screen")),
+    Center(child: Text("History Screen")),
+  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   final List<Map<String, dynamic>> serviceData = [
     {
       "icon": Icons.cleaning_services,
@@ -241,6 +260,8 @@ class HomeScreen extends StatelessWidget {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
         selectedItemColor: Colors.orangeAccent,
         unselectedItemColor: Colors.teal[800],
         backgroundColor: Colors.teal[800],
