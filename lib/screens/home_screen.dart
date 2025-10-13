@@ -3,7 +3,130 @@ import 'package:chitral_dost_app/screens/service_tile.dart';
 import 'package:chitral_dost_app/screens/worker_card.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  final List<Map<String, dynamic>> serviceData = [
+    {
+      "icon": Icons.cleaning_services,
+      "label": "Cleaning",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.blue,
+    },
+    {
+      "icon": Icons.plumbing,
+      "label": "Plumbing",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.green,
+    },
+    {
+      "icon": Icons.electrical_services,
+      "label": "Electrician",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.orange,
+    },
+    {
+      "icon": Icons.local_shipping,
+      "label": "Delivery",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.purple,
+    },
+
+    {
+      "icon": Icons.local_police,
+      "label": "Police",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.redAccent,
+    },
+    {
+      "icon": Icons.medical_services,
+      "label": "Doctor",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.teal,
+    },
+    {
+      "icon": Icons.pedal_bike,
+      "label": "Bike Rider",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.indigo,
+    },
+    {
+      "icon": Icons.handyman,
+      "label": "Carpenter",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.brown,
+    },
+    {
+      "icon": Icons.format_paint,
+      "label": "Painter",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.deepOrange,
+    },
+    {
+      "icon": Icons.grass,
+      "label": "Gardener",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.green,
+    },
+    {
+      "icon": Icons.ac_unit,
+      "label": "AC Technician",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.lightBlue,
+    },
+    {
+      "icon": Icons.kitchen,
+      "label": "Appliance Repair",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.indigo,
+    },
+    {
+      "icon": Icons.cleaning_services,
+      "label": "Maid Service",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.pink,
+    },
+    {
+      "icon": Icons.local_laundry_service,
+      "label": "Laundry",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.blueGrey,
+    },
+    {
+      "icon": Icons.restaurant,
+      "label": "Cook",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.redAccent,
+    },
+    {
+      "icon": Icons.menu_book,
+      "label": "Tutor",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.teal,
+    },
+    {
+      "icon": Icons.child_care,
+      "label": "Baby Sitter",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.purple,
+    },
+    {
+      "icon": Icons.drive_eta,
+      "label": "Driver",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.blue,
+    },
+    {
+      "icon": Icons.security,
+      "label": "Security Guard",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.black,
+    },
+    {
+      "icon": Icons.content_cut,
+      "label": "Barber",
+      "backgroundColor": Colors.white,
+      "avatarColor": Colors.deepPurple,
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +202,7 @@ class HomeScreen extends StatelessWidget {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 8,
+                itemCount: serviceData.length,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   crossAxisSpacing: 12,
@@ -87,11 +210,12 @@ class HomeScreen extends StatelessWidget {
                   childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
+                  final service = serviceData[index];
                   return ServiceTile(
-                    icon: Icons.car_repair,
-                    label: 'Service ${index + 1}',
-                    backgroundColor: Colors.teal.shade800,
-                    avatarColor: Colors.orangeAccent.shade200,
+                    icon: service["icon"],
+                    label: service["label"],
+                    backgroundColor: service['backgroundColor'],
+                    avatarColor: service['avatarColor'],
                   );
                 },
               ),
