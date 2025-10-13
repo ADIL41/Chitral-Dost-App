@@ -10,6 +10,10 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +69,7 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: nameController,
                       decoration: const InputDecoration(
                         labelText: 'Name',
                         hintText: 'Enter your Name',
@@ -79,6 +84,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(height: verticalSpace(0.03)),
                     TextFormField(
+                      controller: phoneController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
@@ -96,6 +102,7 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(height: verticalSpace(0.03)),
 
                     TextFormField(
+                      controller: emailController,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -111,6 +118,7 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(height: verticalSpace(0.03)),
 
                     TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Password',

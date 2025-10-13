@@ -11,6 +11,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: emailController,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -81,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: verticalSpace(0.03)),
 
                     TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Password',
@@ -105,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  HomeScreen(),
+                                builder: (context) => HomeScreen(),
                               ),
                               (Route<dynamic> route) => false,
                             );
