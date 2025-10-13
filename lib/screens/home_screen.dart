@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  // ignore: unused_field
   final List<Widget> _screens = [
     Center(child: Text("Home Screen")),
     Center(child: Text("Booking Screen")),

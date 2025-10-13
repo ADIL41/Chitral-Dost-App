@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ServiceTile extends StatelessWidget {
-   
   final IconData icon;
   final String label;
   final Color backgroundColor;
   final Color avatarColor;
 
-   ServiceTile({
+  const ServiceTile({
     super.key,
     required this.icon,
     required this.label,
