@@ -1,4 +1,4 @@
-
+import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:chitral_dost_app/screens/skill_chip.dart';
 import 'package:flutter/material.dart';
 
@@ -196,7 +196,10 @@ class _WorkerProfileState extends State<WorkerProfile> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-              
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingDetail()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightGreen,
