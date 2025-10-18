@@ -1,3 +1,4 @@
+import 'package:chitral_dost_app/screens/worker_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chitral_dost_app/screens/service_tile.dart';
 import 'package:chitral_dost_app/screens/worker_card.dart';
@@ -10,13 +11,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   // ignore: unused_field
   final List<Widget> _screens = [
     Center(child: Text("Home Screen")),
     Center(child: Text("Booking Screen")),
     Center(child: Text("Profile Screen")),
-   
   ];
 
   final List<Map<String, dynamic>> serviceData = [
@@ -231,6 +230,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: service["label"],
                     backgroundColor: service['backgroundColor'],
                     avatarColor: service['avatarColor'],
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              WorkerListScreen(service: service['label']),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -254,7 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-
     );
   }
 }
