@@ -10,19 +10,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  
   // ignore: unused_field
   final List<Widget> _screens = [
     Center(child: Text("Home Screen")),
     Center(child: Text("Booking Screen")),
     Center(child: Text("Profile Screen")),
-    Center(child: Text("History Screen")),
+   
   ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   final List<Map<String, dynamic>> serviceData = [
     {
@@ -260,25 +255,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Colors.teal[800],
-        backgroundColor: Colors.teal[800],
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        iconSize: 25,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
-            label: 'Booking',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
-        ],
-      ),
     );
   }
 }

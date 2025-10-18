@@ -1,4 +1,4 @@
-import 'package:chitral_dost_app/screens/home_screen.dart';
+import 'package:chitral_dost_app/screens/bottom_navbar.dart';
 import 'package:chitral_dost_app/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
- 
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
+                                builder: (context) => BottomNavbar(),
                               ),
                               (Route<dynamic> route) => false,
                             );
@@ -155,7 +154,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: verticalSpace(0.05)),
             ],
-            
           ),
         ),
       ),
