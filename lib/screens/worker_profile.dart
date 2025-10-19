@@ -1,6 +1,5 @@
 import 'package:chitral_dost_app/models/worker_model.dart';
 import 'package:chitral_dost_app/screens/booking_detail.dart';
-import 'package:chitral_dost_app/screens/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
