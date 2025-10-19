@@ -2,6 +2,7 @@ import 'package:chitral_dost_app/screens/worker_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chitral_dost_app/screens/service_tile.dart';
 import 'package:chitral_dost_app/screens/worker_card.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -161,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         title: Text(
           'CHITRAL DOST',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontWeight: FontWeight.bold,
             color: Colors.orangeAccent,
           ),
@@ -175,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'Good Morning, Adil!',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
@@ -184,12 +185,12 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 8),
             Text(
               'What service do you need today?',
-              style: TextStyle(fontSize: 16, color: Colors.orangeAccent),
+              style: GoogleFonts.poppins(fontSize: 16, color: Colors.orangeAccent),
             ),
             SizedBox(height: 20),
             Text(
               'Explore Services',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -247,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 24),
             Text(
               'Need Urgent Help?',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,

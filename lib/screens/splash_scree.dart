@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chitral_dost_app/screens/welcome_sceen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(height: 20),
             Text(
               "Chitral Dost",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.teal,
@@ -44,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(height: 10),
             Text(
               "Your Trusted Partner for Home Services",
-              style: TextStyle(fontSize: 16, color: Colors.orangeAccent),
+              style: GoogleFonts.inter(fontSize: 16, color: Colors.orangeAccent),
             ),
           ],
         ),

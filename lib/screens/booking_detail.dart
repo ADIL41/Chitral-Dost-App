@@ -1,5 +1,6 @@
 import 'package:chitral_dost_app/screens/booking_class.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookingDetail extends StatelessWidget {
   final List<Booking> bookings = [
@@ -55,7 +56,7 @@ class BookingDetail extends StatelessWidget {
         backgroundColor: Colors.teal[800],
         title: Text(
           'Booking Detail',
-          style: TextStyle(color: Colors.orangeAccent),
+          style: GoogleFonts.poppins(color: Colors.orangeAccent),
         ),
         centerTitle: true,
       ),

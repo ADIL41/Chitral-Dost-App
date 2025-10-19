@@ -1,6 +1,6 @@
-
 import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeSceen extends StatefulWidget {
   const WelcomeSceen({super.key});
@@ -36,7 +36,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
               children: [
                 Text(
                   'ChitralDost',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.teal,
@@ -49,7 +49,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
               children: [
                 Text(
                   'Welcome to Chitral Dost!',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: Colors.orangeAccent,
@@ -63,6 +63,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
               padding: const EdgeInsets.all(20),
               child: Text(
                 'Your trusted partner for home repair services, connecting you with verified professionals in underserved areas',
+                style: GoogleFonts.inter(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             ),

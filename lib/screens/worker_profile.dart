@@ -1,5 +1,6 @@
 import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WorkerProfile extends StatefulWidget {
   const WorkerProfile({super.key});
@@ -13,9 +14,9 @@ class _WorkerProfileState extends State<WorkerProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Worker Profile',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 18,
             color: Colors.orangeAccent,
             fontWeight: FontWeight.bold,
@@ -61,9 +62,9 @@ class _WorkerProfileState extends State<WorkerProfile> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(height: 60), // space for avatar
-                            const Text(
+                            Text(
                               'Muhammad Asif',
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent,
@@ -71,9 +72,9 @@ class _WorkerProfileState extends State<WorkerProfile> {
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 5),
-                            const Text(
+                             Text(
                               'Certified Electrician & Home Repair Specialist',
-                              style: TextStyle(
+                              style: GoogleFonts.inter(
                                 fontSize: 18,
                                 color: Colors.orangeAccent,
                               ),
