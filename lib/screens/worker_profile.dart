@@ -81,36 +81,8 @@ class _WorkerProfileState extends State<WorkerProfile> {
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                for (int i = 0; i < 4; i++)
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 2,
-                                    ),
-                                    child: Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    ),
-                                  ),
-                                const Icon(
-                                  Icons.star_border_outlined,
-                                  color: Colors.amber,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  '4.8 (120 reviews)',
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 15),
+
+                            const SizedBox(height: 25),
                             ElevatedButton(
                               onPressed: () {
                                 // Action when button is pressed
@@ -150,48 +122,6 @@ class _WorkerProfileState extends State<WorkerProfile> {
               ),
             ),
             SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                height: 300,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Skills & Expertise',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          SkillChip(label: 'Electrical Wiring'),
-                          SkillChip(label: 'Fixture Installation'),
-                          SkillChip(label: 'Appliance Repair'),
-                          SkillChip(label: 'Safety Inspections'),
-                          SkillChip(label: 'Troubleshooting'),
-                          SkillChip(label: 'General Handyman'),
-                          SkillChip(label: 'Panel Upgrades'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
 
             SizedBox(height: 10),
             ElevatedButton(
@@ -207,27 +137,8 @@ class _WorkerProfileState extends State<WorkerProfile> {
               ),
               child: Text('Booking Now'),
             ),
-            SizedBox(height: 15),
           ],
         ),
-      ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Colors.teal[800],
-        backgroundColor: Colors.teal[800],
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        iconSize: 25,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
-            label: 'Booking',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
-        ],
       ),
     );
   }
