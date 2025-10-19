@@ -1,4 +1,5 @@
 import 'package:chitral_dost_app/data/workers_data.dart';
+import 'package:chitral_dost_app/models/worker_model.dart';
 
 import 'package:flutter/material.dart';
 
@@ -37,12 +38,32 @@ class WorkerListScreen extends StatelessWidget {
                     horizontal: 12,
                     vertical: 6,
                   ),
-                  child: ListTile(
-                    leading: const CircleAvatar(child: Icon(Icons.person)),
-                    title: Text(worker.name),
-                    subtitle: Text(worker.phone),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      gradient: LinearGradient(
+                        colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(child: Icon(Icons.person)),
+                      title: Text(
+                        worker.name,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      subtitle: Text(
+                        worker.phone,
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      trailing: (Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.black54,
+                      )),
+                      onTap: () {},
+                    ),
                   ),
                 );
               },
