@@ -1,5 +1,4 @@
 import 'package:chitral_dost_app/screens/booking_detail.dart';
-import 'package:chitral_dost_app/screens/skill_chip.dart';
 import 'package:flutter/material.dart';
 
 class WorkerProfile extends StatefulWidget {
