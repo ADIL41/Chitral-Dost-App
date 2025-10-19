@@ -1,6 +1,6 @@
 import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:chitral_dost_app/screens/home_screen.dart';
-import 'package:chitral_dost_app/screens/worker_profile.dart';
+import 'package:chitral_dost_app/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavbar extends StatefulWidget {
@@ -13,7 +13,7 @@ class BottomNavbar extends StatefulWidget {
 class _BottomNavbarState extends State<BottomNavbar> {
   int _selectedIndex = 0;
 
-  List pages = [HomeScreen(), BookingDetail(), WorkerProfile()];
+  List pages = [HomeScreen(), BookingDetail(), SettingsScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +39,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
             icon: Icon(Icons.book_online),
             label: 'Booking',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          // BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
         ],
       ),
     );

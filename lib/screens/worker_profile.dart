@@ -1,15 +1,13 @@
+import 'package:chitral_dost_app/models/worker_model.dart';
 import 'package:chitral_dost_app/screens/booking_detail.dart';
+import 'package:chitral_dost_app/screens/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WorkerProfile extends StatefulWidget {
-  const WorkerProfile({super.key});
+class WorkerProfile extends StatelessWidget {
+  final Worker worker;
+  const WorkerProfile({super.key, required this.worker});
 
-  @override
-  State<WorkerProfile> createState() => _WorkerProfileState();
-}
-
-class _WorkerProfileState extends State<WorkerProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +61,7 @@ class _WorkerProfileState extends State<WorkerProfile> {
                           children: [
                             const SizedBox(height: 60), // space for avatar
                             Text(
-                              'Muhammad Asif',
+                              worker.name,
                               style: GoogleFonts.poppins(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -72,40 +70,24 @@ class _WorkerProfileState extends State<WorkerProfile> {
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 5),
-                             Text(
-                              'Certified Electrician & Home Repair Specialist',
+                            Text(
+                              worker.service,
                               style: GoogleFonts.inter(
                                 fontSize: 18,
                                 color: Colors.orangeAccent,
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: 8),
-
-                            const SizedBox(height: 25),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Action when button is pressed
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.lightGreen,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 12,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: const Text(
-                                'Available for Hire',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '📞${worker.phone}',
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                                color: Colors.black87,
                               ),
                             ),
+
+                            const SizedBox(height: 25),
                           ],
                         ),
                       ),
@@ -123,7 +105,7 @@ class _WorkerProfileState extends State<WorkerProfile> {
             ),
             SizedBox(height: 10),
 
-            SizedBox(height: 10),
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

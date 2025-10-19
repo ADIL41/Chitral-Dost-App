@@ -1,4 +1,5 @@
 import 'package:chitral_dost_app/data/workers_data.dart';
+import 'package:chitral_dost_app/screens/worker_profile.dart';
 
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,14 @@ class WorkerListScreen extends StatelessWidget {
                         size: 16,
                         color: Colors.black54,
                       )),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WorkerProfile(worker: worker),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 );
