@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WorkerProfile extends StatelessWidget {
-  final Worker worker;
+  final WorkerModel worker;
   const WorkerProfile({super.key, required this.worker});
 
   @override
@@ -17,8 +17,6 @@ class WorkerProfile extends StatelessWidget {
             fontSize: 18,
             color: Colors.orangeAccent,
             fontWeight: FontWeight.bold,
-            
-
           ),
         ),
         centerTitle: true,
@@ -72,7 +70,7 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              worker.service,
+                              worker.service.label,
                               style: GoogleFonts.inter(
                                 fontSize: 18,
                                 color: Colors.orangeAccent,

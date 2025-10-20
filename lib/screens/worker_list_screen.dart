@@ -1,10 +1,11 @@
 import 'package:chitral_dost_app/data/workers_data.dart';
+import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:chitral_dost_app/screens/worker_profile.dart';
 
 import 'package:flutter/material.dart';
 
 class WorkerListScreen extends StatelessWidget {
-  final String service;
+  final ServiceModel service;
 
   const WorkerListScreen({super.key, required this.service});
 
@@ -16,7 +17,7 @@ class WorkerListScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.teal[800],
         title: Text(
-          '$service Workers',
+          '${service.label} Workers',
           style: TextStyle(color: Colors.orangeAccent),
         ),
         centerTitle: true,
