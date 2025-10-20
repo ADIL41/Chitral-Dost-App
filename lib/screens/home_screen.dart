@@ -12,12 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // ignore: unused_field
-  final List<Widget> _screens = [
-    Center(child: Text("Home Screen")),
-    Center(child: Text("Booking Screen")),
-    Center(child: Text("Profile Screen")),
-  ];
+  
 
   final List<Map<String, dynamic>> serviceData = [
     {
