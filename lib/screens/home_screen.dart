@@ -1,5 +1,4 @@
 import 'package:chitral_dost_app/data/service_data.dart';
-import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:chitral_dost_app/screens/worker_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chitral_dost_app/screens/service_tile.dart';
@@ -101,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
-                  final service = ServiceModel[index];
+                  final service = services[index];
                   return ServiceTile(
                     icon: service.icon,
                     label: service.label,
@@ -143,6 +142,4 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-extension on Type {
-  operator [](int other) {}
-}
+
