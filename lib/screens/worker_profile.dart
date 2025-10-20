@@ -17,6 +17,8 @@ class WorkerProfile extends StatelessWidget {
             fontSize: 18,
             color: Colors.orangeAccent,
             fontWeight: FontWeight.bold,
+            
+
           ),
         ),
         centerTitle: true,

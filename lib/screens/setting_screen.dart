@@ -10,6 +10,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
   String _selectedLanguage = "English";
+  
 
   @override
   Widget build(BuildContext context) {
