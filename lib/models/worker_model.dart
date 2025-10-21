@@ -6,8 +6,7 @@ class WorkerModel {
   final String phone;
   final String place;
 
-  WorkerModel(
-    {
+  WorkerModel({
     required this.name,
     required this.phone,
     required this.service,

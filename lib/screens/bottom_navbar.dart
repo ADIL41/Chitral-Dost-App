@@ -1,3 +1,4 @@
+import 'package:chitral_dost_app/data/workers_data.dart';
 import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:chitral_dost_app/screens/home_screen.dart';
 import 'package:chitral_dost_app/screens/setting_screen.dart';
@@ -13,7 +14,11 @@ class BottomNavbar extends StatefulWidget {
 class _BottomNavbarState extends State<BottomNavbar> {
   int _selectedIndex = 0;
 
-  List pages = [HomeScreen(), BookingDetail(), SettingsScreen()];
+  List pages = [
+    HomeScreen(),
+    BookingDetail(workers: workers),
+    SettingsScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
