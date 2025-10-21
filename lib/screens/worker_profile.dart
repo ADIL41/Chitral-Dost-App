@@ -79,6 +79,15 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
+                              worker.place,
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                                color: Colors.orangeAccent,
+                              ),
+                            ),
+
+                            const SizedBox(height: 5),
+                            Text(
                               '📞${worker.phone}',
                               style: GoogleFonts.inter(
                                 fontSize: 16,

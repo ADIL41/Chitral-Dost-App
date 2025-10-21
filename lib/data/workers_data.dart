@@ -6,6 +6,7 @@ final List<WorkerModel> workers = [
     name: "Bilal",
     service: services.firstWhere((s) => s.label == "Plumbing"),
     phone: "03009876543",
+    place: 'Drosh',
     
 
   ),
@@ -13,31 +14,37 @@ final List<WorkerModel> workers = [
     name: "Usman",
     service: services.firstWhere((s) => s.label == "Electrician"),
     phone: "03007654321",
+    place: 'Drosh',
   ),
   WorkerModel(
     name: "Ahmed",
     service: services.firstWhere((s) => s.label == 'Cleaning'),
     phone: "03001112222",
+    place: 'Chitral',
   ),
 
   WorkerModel(
     name: "Zeeshan",
     service: services.firstWhere((s) => s.label == "Driver"),
     phone: "03007778899",
+    place: 'kesu',
   ),
   WorkerModel(
     name: "Zeeshan",
     service: services.firstWhere((s) => s.label == "Doctor"),
     phone: "03007778899",
+    place: 'kesu',
   ),
   WorkerModel(
     name: "Zeeshan",
     service: services.firstWhere((s) => s.label == "Police"),
     phone: "03007778899",
+    place: 'Drosh',
   ),
   WorkerModel(
     name: "Zeeshan",
     service: services.firstWhere((s) => s.label == "Driver"),
     phone: "03007778899",
+    place: 'Drosh',
   ),
 ];
