@@ -21,8 +21,8 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 40),
               child: Container(
-                height: 200,
-                width: 200,
+                height: 150,
+                width: 150,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white),
                 ),
@@ -37,7 +37,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
                 Text(
                   'ChitralDost',
                   style: GoogleFonts.poppins(
-                    fontSize: 32,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.teal,
                   ),
@@ -50,7 +50,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
                 Text(
                   'Welcome to Chitral Dost!',
                   style: GoogleFonts.poppins(
-                    fontSize: 26,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.orangeAccent,
                   ),
@@ -63,7 +63,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
               padding: const EdgeInsets.all(20),
               child: Text(
                 'Your trusted partner for home repair services, connecting you with verified professionals in underserved areas',
-                style: GoogleFonts.inter(fontSize: 18),
+                style: GoogleFonts.inter(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),
