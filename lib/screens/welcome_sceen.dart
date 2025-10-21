@@ -19,7 +19,7 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, top: 40),
+              padding: const EdgeInsets.only(left: 20, top: 10),
               child: Container(
                 height: 150,
                 width: 150,
@@ -57,13 +57,13 @@ class _WelcomeSceenState extends State<WelcomeSceen> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
 
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
-                'Your trusted partner for home repair services, connecting you with verified professionals in underserved areas',
-                style: GoogleFonts.inter(fontSize: 16),
+                'Your trusted partner for home repair services in Chitral. ',
+                style: GoogleFonts.inter(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
             ),
