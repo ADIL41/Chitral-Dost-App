@@ -2,14 +2,9 @@ import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WelcomeSceen extends StatefulWidget {
+class WelcomeSceen extends StatelessWidget {
   const WelcomeSceen({super.key});
 
-  @override
-  State<WelcomeSceen> createState() => _WelcomeSceenState();
-}
-
-class _WelcomeSceenState extends State<WelcomeSceen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
