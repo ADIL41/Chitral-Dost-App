@@ -2,7 +2,7 @@ import 'package:chitral_dost_app/data/service_data.dart';
 import 'package:chitral_dost_app/screens/worker_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chitral_dost_app/screens/service_tile.dart';
-import 'package:chitral_dost_app/screens/worker_card.dart';
+import 'package:chitral_dost_app/screens/add_service_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -130,8 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 12),
 
-            // Worker Card
-            WorkerCard(),
+            // ServiceCard
+            AddSerciveCard(),
 
             SizedBox(height: 20),
           ],

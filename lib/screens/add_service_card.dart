@@ -1,8 +1,8 @@
+import 'package:chitral_dost_app/screens/worker_form.dart';
 import 'package:flutter/material.dart';
 
-class WorkerCard extends StatelessWidget {
-  const WorkerCard({super.key});
-
+class AddSerciveCard extends StatelessWidget {
+  const AddSerciveCard({super.key});
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -31,7 +31,7 @@ class WorkerCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Find a Worker Now',
+              'Offer Your Service',
               style: TextStyle(
                 fontSize: screenWidth * 0.045,
                 color: Colors.orangeAccent,
@@ -40,7 +40,7 @@ class WorkerCard extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'Connect with available skilled professionals for immediate service requests.',
+              'Add your skills and become available for customers to hire.',
               style: TextStyle(
                 fontSize: screenWidth * 0.035,
                 color: Colors.black,
@@ -53,13 +53,18 @@ class WorkerCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WorkerForm()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightGreen,
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   textStyle: TextStyle(fontSize: screenWidth * 0.035),
                 ),
-                child: Text('Get Started'),
+                child: Text('Add Service'),
               ),
             ),
           ],
