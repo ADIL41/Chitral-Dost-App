@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/worker_model.dart'; // adjust path if needed
+import 'package:url_launcher/url_launcher.dart';
 
 class BookingDetail extends StatelessWidget {
   final List<WorkerModel> workers;
 
   const BookingDetail({required this.workers, super.key});
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    } else {
+      throw 'Could not launch $phoneNumber';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +68,9 @@ class BookingDetail extends StatelessWidget {
                           Text(worker.phone, style: TextStyle(fontSize: 14)),
                           SizedBox(height: 10),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _makePhoneCall(worker.phone);
+                            },
                             child: Text('Call Now'),
                           ),
                         ],
