@@ -1,4 +1,7 @@
+import 'package:chitral_dost_app/data/service_data.dart';
+import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WorkerForm extends StatefulWidget {
@@ -59,16 +62,43 @@ class _WorkerFormState extends State<WorkerForm> {
               SizedBox(height: 6),
               TextFormField(
                 controller: _serviceController,
-                decoration: const InputDecoration(
+                readOnly: true,
+                decoration: InputDecoration(
                   labelText: 'Service',
                   prefixIcon: Icon(Icons.work),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
+                  suffixIcon: DropdownButtonHideUnderline(
+                    child: DropdownButton<ServiceModel>(
+                      icon: const Icon(Icons.arrow_drop_down),
+                      items: services.map((service) {
+                        return DropdownMenuItem<ServiceModel>(
+                          value: service,
+                          child: Row(
+                            children: [
+                              Icon(
+                                service.icon,
+                                size: 20,
+                                color: service.avatarColor,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(service.label),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (ServiceModel? selected) {
+                        if (selected != null) {
+                          _serviceController.text = selected.label;
+                        }
+                      },
+                    ),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your service';
+                    return 'Please select your service';
                   }
                   return null;
                 },
@@ -76,7 +106,12 @@ class _WorkerFormState extends State<WorkerForm> {
               SizedBox(height: 6),
               TextFormField(
                 controller: _phoneController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly, // only allow digits
+                  LengthLimitingTextInputFormatter(11), // max 11 digits
+                ],
+
                 decoration: const InputDecoration(
                   labelText: 'Phone ',
                   prefixIcon: Icon(Icons.phone),
@@ -88,6 +123,9 @@ class _WorkerFormState extends State<WorkerForm> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your Number';
+                  }
+                  if (value.length != 11) {
+                    return 'Please enter a valid phone number';
                   }
                   return null;
                 },
