@@ -13,8 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
- 
-
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
@@ -121,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 24),
             Text(
-              'Need Urgent Help?',
+              'Add Services You  Here 👇 ',
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -140,5 +138,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
