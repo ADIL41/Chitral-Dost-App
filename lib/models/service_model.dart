@@ -5,13 +5,13 @@ class ServiceModel {
   final IconData icon;
   final Color backgroundColor;
   final Color avatarColor;
-  final String place;
+  final String address;
 
   ServiceModel({
     required this.label,
     required this.icon,
     required this.backgroundColor,
     required this.avatarColor,
-    required this.place,
+    required this.address,
   });
 }
