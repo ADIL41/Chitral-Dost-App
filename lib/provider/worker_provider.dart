@@ -6,7 +6,7 @@ class WorkerProvider with ChangeNotifier {
   List<WorkerModel> _workers = [];
   WorkerModel? _selectedWorker;
 
-  List<WorkerModel> get worker => _workers;
+  List<WorkerModel> get workers => _workers;
   WorkerModel? get selectedWorker => _selectedWorker;
 
   WorkerProvider() {
