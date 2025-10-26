@@ -13,8 +13,6 @@ class WorkerListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    workers.where((w) => w.service == service).toList();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal[800],
