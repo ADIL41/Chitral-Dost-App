@@ -63,6 +63,11 @@ class WorkerProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeWorker(WorkerModel worker) {
+    _workers.remove(worker);
+    notifyListeners();
+  }
+
   List<WorkerModel> getWorkersByService(ServiceModel service) {
     return _workers
         .where((worker) => worker.service.label == service.label)
