@@ -1,9 +1,13 @@
-import 'package:chitral_dost_app/data/service_data.dart';
+
+import 'package:chitral_dost_app/provider/service_provider.dart';
 import 'package:chitral_dost_app/screens/worker_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chitral_dost_app/screens/service_tile.dart';
 import 'package:chitral_dost_app/screens/add_service_card.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal[800],
@@ -85,30 +88,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               padding: EdgeInsets.all(12),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: services.length,
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) {
-                  final service = services[index];
-                  return ServiceTile(
-                    icon: service.icon,
-                    label: service.label,
-                    backgroundColor: service.backgroundColor,
-                    avatarColor: service.avatarColor,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              WorkerListScreen(service: service),
-                        ),
+              child: Consumer<ServiceProvider>(
+                builder: (context, serviceProvider, child) {
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: serviceProvider.services.length,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      final service = serviceProvider.services[index];
+                      return ServiceTile(
+                        icon: service.icon,
+                        label: service.label,
+                        backgroundColor: service.backgroundColor,
+                        avatarColor: service.avatarColor,
+                        onTap: () {
+                          final provider = Provider.of<ServiceProvider>(
+                            context,
+                            listen: false,
+                          );
+                          provider.selectService(service);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  WorkerListScreen(service: service),
+                            ),
+                          );
+                        },
                       );
                     },
                   );

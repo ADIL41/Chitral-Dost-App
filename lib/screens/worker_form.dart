@@ -1,8 +1,10 @@
 import 'package:chitral_dost_app/data/service_data.dart';
 import 'package:chitral_dost_app/models/service_model.dart';
+import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class WorkerForm extends StatefulWidget {
   const WorkerForm({super.key});
@@ -17,6 +19,7 @@ class _WorkerFormState extends State<WorkerForm> {
   final _serviceController = TextEditingController();
   final _phoneController = TextEditingController();
   final _placeController = TextEditingController();
+  ServiceModel? _selectedService;
   @override
   void dispose() {
     _nameController.dispose();
@@ -90,6 +93,7 @@ class _WorkerFormState extends State<WorkerForm> {
                       }).toList(),
                       onChanged: (ServiceModel? selected) {
                         if (selected != null) {
+                          _selectedService = selected;
                           _serviceController.text = selected.label;
                         }
                       },
@@ -151,14 +155,26 @@ class _WorkerFormState extends State<WorkerForm> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate() &&
+                      _selectedService != null) {
+                    final workerProvider = Provider.of<WorkerProvider>(
+                      context,
+                      listen: false,
+                    );
+                    workerProvider.addWorker(
+                      _nameController.text,
+                      _selectedService!,
+                      _phoneController.text,
+                      _placeController.text,
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Submmited successfully'),
+                        content: Text('Submitted successfully'),
                         backgroundColor: Colors.green,
                       ),
                     );
                   }
+                  Navigator.pop(context);
                 },
                 child: const Text('Submit'),
               ),
