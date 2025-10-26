@@ -13,7 +13,7 @@ class WorkerListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filteredWorker = workers.where((w) => w.service == service).toList();
+    workers.where((w) => w.service == service).toList();
 
     return Scaffold(
       appBar: AppBar(
