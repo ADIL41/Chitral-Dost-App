@@ -2,11 +2,11 @@ import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:flutter/material.dart';
 
 class ServiceProvider with ChangeNotifier {
-  //sate
+  
   List<ServiceModel> _services = [];
   ServiceModel? _selectedService;
 
-  //getters
+  
   List<ServiceModel> get services => _services;
   ServiceModel? get selectedService => _selectedService;
 
@@ -171,8 +171,5 @@ class ServiceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearSelection() {
-    _selectedService = null;
-    notifyListeners();
-  }
+  
 }

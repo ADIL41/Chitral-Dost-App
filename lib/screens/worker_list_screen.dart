@@ -1,4 +1,3 @@
-import 'package:chitral_dost_app/data/workers_data.dart';
 import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:chitral_dost_app/screens/worker_profile.dart';

@@ -63,10 +63,7 @@ class WorkerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeWorker(WorkerModel worker) {
-    _workers.remove(worker);
-    notifyListeners();
-  }
+  
 
   List<WorkerModel> getWorkersByService(ServiceModel service) {
     return _workers
