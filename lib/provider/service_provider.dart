@@ -163,6 +163,13 @@ class ServiceProvider with ChangeNotifier {
         avatarColor: Colors.green,
         address: 'Drosh',
       ),
+      ServiceModel(
+        label: 'Hotel',
+        icon: Icons.hotel,
+        backgroundColor: Colors.white,
+        avatarColor: Colors.brown,
+        address: 'Drosh',
+      ),
     ];
   }
 
