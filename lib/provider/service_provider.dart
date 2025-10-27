@@ -2,11 +2,9 @@ import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:flutter/material.dart';
 
 class ServiceProvider with ChangeNotifier {
-  
   List<ServiceModel> _services = [];
   ServiceModel? _selectedService;
 
-  
   List<ServiceModel> get services => _services;
   ServiceModel? get selectedService => _selectedService;
 
@@ -170,6 +168,20 @@ class ServiceProvider with ChangeNotifier {
         avatarColor: Colors.brown,
         address: 'Drosh',
       ),
+      ServiceModel(
+        label: 'Cafe',
+        icon: Icons.coffee,
+        backgroundColor: Colors.white,
+        avatarColor: Colors.orange,
+        address: 'Drosh',
+      ),
+      ServiceModel(
+        label: 'Labour',
+        icon: Icons.work,
+        backgroundColor: Colors.white,
+        avatarColor: Colors.indigo,
+        address: 'Chitral',
+      ),
     ];
   }
 
@@ -177,6 +189,4 @@ class ServiceProvider with ChangeNotifier {
     _selectedService = service;
     notifyListeners();
   }
-
-  
 }
