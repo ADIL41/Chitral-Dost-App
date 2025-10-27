@@ -14,32 +14,7 @@ class WorkerProvider with ChangeNotifier {
   }
 
   void _loadWorkers() {
-    _workers = [
-      WorkerModel(
-        name: "Bilal",
-        service: ServiceModel(
-          label: "Cleaning",
-          icon: Icons.cleaning_services,
-          backgroundColor: Colors.white,
-          avatarColor: Colors.blue,
-          address: 'Drosh',
-        ),
-        phone: '03009876543',
-        place: 'Drosh',
-      ),
-      WorkerModel(
-        name: "Usman",
-        service: ServiceModel(
-          label: "Electrician",
-          icon: Icons.electrical_services,
-          backgroundColor: Colors.white,
-          avatarColor: Colors.orange,
-          address: 'Serdur',
-        ),
-        phone: "03007654321",
-        place: 'Drosh',
-      ),
-    ];
+    _workers = [];
   }
 
   void selectWorker(WorkerModel worker) {
