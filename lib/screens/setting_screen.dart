@@ -10,12 +10,23 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
   String _selectedLanguage = "English";
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings")),
+      appBar: AppBar(
+        title: Text(
+          "Settings",
+          style: TextStyle(
+            color: Theme.of(context).secondaryHeaderColor,
+            fontSize: 20,
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.teal[800],
+      ),
       body: ListView(
         children: [
           // Profile Info

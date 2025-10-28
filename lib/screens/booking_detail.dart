@@ -20,10 +20,16 @@ class BookingDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.teal[800],
         title: Text(
           'Booking Detail',
-          style: GoogleFonts.poppins(color: Colors.orangeAccent),
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).secondaryHeaderColor,
+            fontSize: 20,
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),

@@ -18,21 +18,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.teal[800],
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notification_add, color: Colors.white),
-            onPressed: () {},
-          ),
-          CircleAvatar(backgroundImage: AssetImage('assets/images/man.png')),
-          SizedBox(width: 10),
-        ],
+
         title: Text(
           'CHITRAL DOST',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.bold,
-            color: Colors.orangeAccent,
+            fontSize: 20,
+            letterSpacing: 2,
+            color: Theme.of(context).secondaryHeaderColor,
           ),
         ),
       ),
