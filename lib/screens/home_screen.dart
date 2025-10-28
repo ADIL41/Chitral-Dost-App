@@ -1,4 +1,3 @@
-
 import 'package:chitral_dost_app/provider/service_provider.dart';
 import 'package:chitral_dost_app/screens/worker_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,6 @@ import 'package:chitral_dost_app/screens/service_tile.dart';
 import 'package:chitral_dost_app/screens/add_service_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
