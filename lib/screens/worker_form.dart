@@ -19,6 +19,7 @@ class _WorkerFormState extends State<WorkerForm> {
   final _serviceController = TextEditingController();
   final _phoneController = TextEditingController();
   final _placeController = TextEditingController();
+  final _descriptionController = TextEditingController();
   ServiceModel? _selectedService;
   @override
   void dispose() {
@@ -26,6 +27,7 @@ class _WorkerFormState extends State<WorkerForm> {
     _serviceController.dispose();
     _phoneController.dispose();
     _placeController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -109,6 +111,31 @@ class _WorkerFormState extends State<WorkerForm> {
               ),
               SizedBox(height: 6),
               TextFormField(
+                controller: _descriptionController,
+                maxLines: 4,
+                maxLength: 300,
+                decoration: InputDecoration(
+                  labelText: 'Service Description',
+                  hintText:
+                      'Describe your skills, experience, services you offer, etc...',
+                  prefixIcon: Icon(Icons.description),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  alignLabelWithHint: true,
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please describe your services';
+                  }
+                  if (value.length < 20) {
+                    return 'Description should be at least 20 characters';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 6),
+              TextFormField(
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 inputFormatters: [
@@ -166,6 +193,7 @@ class _WorkerFormState extends State<WorkerForm> {
                       _selectedService!,
                       _phoneController.text,
                       _placeController.text,
+                      _descriptionController.text,
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

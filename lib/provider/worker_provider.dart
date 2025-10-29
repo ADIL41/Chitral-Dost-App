@@ -27,12 +27,14 @@ class WorkerProvider with ChangeNotifier {
     ServiceModel service,
     String phone,
     String place,
+    String description,
   ) {
     final newworker = WorkerModel(
       name: name,
       service: service,
       phone: phone,
       place: place,
+      description: description,
     );
     _workers.add(newworker);
     notifyListeners();

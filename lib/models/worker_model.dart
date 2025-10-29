@@ -5,11 +5,13 @@ class WorkerModel {
   final ServiceModel service;
   final String phone;
   final String place;
+  final String description;
 
   WorkerModel({
     required this.name,
     required this.phone,
     required this.service,
     required this.place,
+    required this.description,
   });
 }
