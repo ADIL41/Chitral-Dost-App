@@ -205,8 +205,8 @@ class _WorkerFormState extends State<WorkerForm> {
                         backgroundColor: Colors.green,
                       ),
                     );
+                    Navigator.pop(context);
                   }
-                  Navigator.pop(context);
                 },
                 child: const Text('Submit'),
               ),
