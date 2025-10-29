@@ -37,7 +37,11 @@ class _WorkerFormState extends State<WorkerForm> {
       appBar: AppBar(
         title: Text(
           'Worker Form',
-          style: GoogleFonts.poppins(color: Colors.orangeAccent),
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).secondaryHeaderColor,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
         ),
         backgroundColor: Colors.teal[800],
         centerTitle: true,

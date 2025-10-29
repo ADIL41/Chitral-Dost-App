@@ -15,26 +15,15 @@ class WorkerProfile extends StatelessWidget {
           'Worker Profile',
           style: GoogleFonts.poppins(
             fontSize: 18,
-            color: Colors.orangeAccent,
+            color: Theme.of(context).secondaryHeaderColor,
             fontWeight: FontWeight.bold,
+            letterSpacing: 2,
           ),
         ),
         centerTitle: true,
         backgroundColor: Colors.teal[800],
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notification_add, color: Colors.white),
-            onPressed: () {},
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/man.png'),
-            ),
-          ),
-          const SizedBox(width: 10),
-        ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -79,7 +68,8 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              worker.place,
+                              '📍  ${worker.place}',
+
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 color: Colors.orangeAccent,
@@ -112,6 +102,42 @@ class WorkerProfile extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
+
+            // 🆕 DESCRIPTION SECTION - ADDED HERE
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'About My Service',
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orangeAccent,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      worker.description,
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             SizedBox(height: 50),
             ElevatedButton(
