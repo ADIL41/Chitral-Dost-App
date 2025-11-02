@@ -1,4 +1,5 @@
 import 'package:chitral_dost_app/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -140,6 +141,11 @@ class _SignUpState extends State<SignUp> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                );
                             // After successful sign-up, go to Login screen
                             Navigator.pushReplacement(
                               context,

@@ -1,5 +1,6 @@
 import 'package:chitral_dost_app/screens/bottom_navbar.dart';
 import 'package:chitral_dost_app/screens/sign_up.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -106,6 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            FirebaseAuth.instance.signInWithEmailAndPassword(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            );
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
