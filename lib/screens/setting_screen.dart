@@ -1,3 +1,5 @@
+import 'package:chitral_dost_app/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -8,8 +10,11 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
+  final bool _notificationsEnabled = true;
   String _selectedLanguage = "English";
+
+  // NEW: Loading variable for logout
+  bool _isLoggingOut = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +46,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
 
           const Divider(),
-
-          // Notifications
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text("Notifications"),
-            trailing: Switch(
-              inactiveThumbColor: Colors.black,
-              inactiveTrackColor: Colors.orangeAccent,
-
-              value: _notificationsEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _notificationsEnabled = value;
-                });
-              },
-            ),
-          ),
 
           // Language
           ListTile(
@@ -91,9 +79,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Logout
           ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text("Logout", style: TextStyle(color: Colors.red)),
-            onTap: () {},
+            leading: _isLoggingOut
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.red,
+                    ),
+                  )
+                : const Icon(Icons.logout, color: Colors.red),
+            title: _isLoggingOut
+                ? Text("Logging out...", style: TextStyle(color: Colors.red))
+                : const Text("Logout", style: TextStyle(color: Colors.red)),
+            onTap: _isLoggingOut
+                ? null
+                : () {
+                    setState(() {
+                      _isLoggingOut = true; // Start loading
+                    });
+
+                    FirebaseAuth.instance
+                        .signOut()
+                        .then((value) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        })
+                        .catchError((error) {
+                          setState(() {
+                            _isLoggingOut = false; // Stop loading on error
+                          });
+                        });
+                  },
           ),
         ],
       ),
