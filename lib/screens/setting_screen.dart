@@ -10,7 +10,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final bool _notificationsEnabled = true;
   String _selectedLanguage = "English";
 
   // NEW: Loading variable for logout
