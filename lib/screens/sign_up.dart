@@ -16,6 +16,9 @@ class _SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  // Loading variable
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -113,6 +116,11 @@ class _SignUpState extends State<SignUp> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
                         }
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
+                          return "Please enter a valid email address";
+                        }
                         return null;
                       },
                     ),
@@ -139,26 +147,51 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                );
-                            // After successful sign-up, go to Login screen
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
+                        onPressed: _isLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    _isLoading = true; // Start loading
+                                  });
+
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text
+                                            .trim(),
+                                      )
+                                      .then((value) {
+                                        // Success - stop loading and navigate
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                        Navigator.pushReplacement(
+                                          context,
+
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen(),
+                                          ),
+                                        );
+                                      })
+                                      .catchError((error) {
+                                        // Error - stop loading
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      });
+                                }
+                              },
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ) // Loading indicator
+                            : Text(
+                                "Sign Up",
+                                style: TextStyle(fontSize: width * 0.045),
                               ),
-                            );
-                          }
-                        },
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(fontSize: width * 0.045),
-                        ),
                       ),
                     ),
                   ],
@@ -172,14 +205,16 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   const Text("Already have an account?"),
                   TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    },
+                    onPressed: _isLoading
+                        ? null // Disable when loading
+                        : () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          },
                     child: Text(
                       "Login",
                       style: TextStyle(

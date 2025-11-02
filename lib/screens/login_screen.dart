@@ -15,6 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  // Loading variable
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -79,6 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
                         }
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
+                          return "Please enter a valid email address";
+                        }
                         return null;
                       },
                     ),
@@ -105,25 +113,51 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            FirebaseAuth.instance.signInWithEmailAndPassword(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim(),
-                            );
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BottomNavbar(),
+                        onPressed: _isLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    _isLoading = true; // Start loading
+                                  });
+
+                                  FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text
+                                            .trim(),
+                                      )
+                                      .then((value) {
+                                        // Success - stop loading and navigate
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                BottomNavbar(),
+                                          ),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      })
+                                      .catchError((error) {
+                                        // Error - stop loading
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      });
+                                }
+                              },
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ) // Loading indicator
+                            : Text(
+                                "Login",
+                                style: TextStyle(fontSize: width * 0.045),
                               ),
-                              (Route<dynamic> route) => false,
-                            );
-                          }
-                        },
-                        child: Text(
-                          "Login",
-                          style: TextStyle(fontSize: width * 0.045),
-                        ),
                       ),
                     ),
                   ],
@@ -136,16 +170,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don’t have an account? ",
+                    "Don't have an account? ",
                     style: TextStyle(fontSize: width * 0.04),
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SignUp()),
-                      );
-                    },
+                    onTap: _isLoading
+                        ? null // Disable when loading
+                        : () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUp(),
+                              ),
+                            );
+                          },
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
