@@ -111,42 +111,38 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: _isLoading
                             ? null
-                            : () {
+                            : () async {
                                 if (_formKey.currentState!.validate()) {
                                   setState(() {
                                     _isLoading = true; // Start loading
                                   });
 
-                                  FirebaseAuth.instance
-                                      .signInWithEmailAndPassword(
-                                        email: emailController.text.trim(),
-                                        password: passwordController.text
-                                            .trim(),
-                                      )
-                                      .then((value) {
-                                        // Success - stop loading and navigate
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-
-                                        if (!mounted) return;
-
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                BottomNavbar(),
-                                          ),
-                                          (Route<dynamic> route) => false,
-                                        );
-                                      })
-                                      .catchError((error) {
-                                        // Error - stop loading
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                      });
+                                  try {
+                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                    );
+                                    
+                                    if (!mounted) return;
+                                    
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BottomNavbar(),
+                                      ),
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  } catch (error) {
+                                    if (!mounted) return;
+                                    
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
                                 }
                               },
                         child: _isLoading

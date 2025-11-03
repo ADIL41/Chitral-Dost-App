@@ -93,30 +93,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 : const Text("Logout", style: TextStyle(color: Colors.red)),
             onTap: _isLoggingOut
                 ? null
-                : () {
+                : () async {
                     setState(() {
                       _isLoggingOut = true; // Start loading
                     });
 
-                    FirebaseAuth.instance
-                        .signOut()
-                        .then((value) {
-                          if (!mounted) return;
+                    try {
+                      await FirebaseAuth.instance.signOut();
 
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
-                        })
-                        .catchError((error) {
-                          if (!mounted) return;
+                      if (!mounted) return;
 
-                          setState(() {
-                            _isLoggingOut = false; // Stop loading on error
-                          });
-                        });
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
+                    } catch (error) {
+                      if (!mounted) return;
+
+                      setState(() {
+                        _isLoggingOut = false; // Stop loading on error
+                      });
+                    }
                   },
           ),
         ],

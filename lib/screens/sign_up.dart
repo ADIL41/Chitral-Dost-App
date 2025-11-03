@@ -145,41 +145,40 @@ class _SignUpState extends State<SignUp> {
                       child: ElevatedButton(
                         onPressed: _isLoading
                             ? null
-                            : () {
+                            : () async {
                                 if (_formKey.currentState!.validate()) {
                                   setState(() {
                                     _isLoading = true; // Start loading
                                   });
 
-                                  FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                        email: emailController.text.trim(),
-                                        password: passwordController.text
-                                            .trim(),
-                                      )
-                                      .then((value) {
-                                        // Success - stop loading and navigate
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-
-                                        if (!mounted) return;
-
-                                        Navigator.pushReplacement(
-                                          context,
-
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginScreen(),
-                                          ),
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                          email: emailController.text.trim(),
+                                          password: passwordController.text
+                                              .trim(),
                                         );
-                                      })
-                                      .catchError((error) {
-                                        // Error - stop loading
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                      });
+
+                                    if (!mounted) return;
+
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen(),
+                                      ),
+                                    );
+                                  } catch (error) {
+                                    if (!mounted) return;
+
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
                                 }
                               },
                         child: _isLoading
