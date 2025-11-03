@@ -101,6 +101,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     FirebaseAuth.instance
                         .signOut()
                         .then((value) {
+                          if (!mounted) return;
+
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -109,6 +111,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           );
                         })
                         .catchError((error) {
+                          if (!mounted) return;
+
                           setState(() {
                             _isLoggingOut = false; // Stop loading on error
                           });

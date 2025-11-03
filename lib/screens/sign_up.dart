@@ -162,6 +162,9 @@ class _SignUpState extends State<SignUp> {
                                         setState(() {
                                           _isLoading = false;
                                         });
+
+                                        if (!mounted) return;
+
                                         Navigator.pushReplacement(
                                           context,
 
@@ -204,6 +207,8 @@ class _SignUpState extends State<SignUp> {
                     onPressed: _isLoading
                         ? null // Disable when loading
                         : () {
+                            if (!mounted) return;
+
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

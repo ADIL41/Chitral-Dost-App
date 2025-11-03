@@ -128,8 +128,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         setState(() {
                                           _isLoading = false;
                                         });
+
+                                        if (!mounted) return;
+
                                         Navigator.pushAndRemoveUntil(
                                           context,
+
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 BottomNavbar(),
@@ -173,6 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: _isLoading
                         ? null // Disable when loading
                         : () {
+                            if (!mounted) return;
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
