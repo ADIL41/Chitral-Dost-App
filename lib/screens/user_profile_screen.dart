@@ -7,7 +7,18 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('User Profile')),
-      body: Center(child: Text('User Profile Screen')),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage('assets/user.png'),
+            ),
+            title: Text('User Name'),
+            subtitle: Text('user@email.com'),
+          ),
+          
+        ],
+      ),
     );
   }
 }
