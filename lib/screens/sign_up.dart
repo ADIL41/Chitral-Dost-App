@@ -1,4 +1,5 @@
 import 'package:chitral_dost_app/screens/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -150,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                                   setState(() {
                                     _isLoading = true; // Start loading
                                   });
-
+                                  //firebase code for authentication
                                   try {
                                     await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
@@ -158,6 +159,18 @@ class _SignUpState extends State<SignUp> {
                                           password: passwordController.text
                                               .trim(),
                                         );
+
+                                    //firestore code is this
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc()
+                                        .set({
+                                          'name': nameController.text.trim(),
+                                          'phone': phoneController.text.trim(),
+                                          'email': emailController.text.trim(),
+                                          'password': passwordController.text
+                                              .trim(),
+                                        });
 
                                     if (!mounted) return;
 
