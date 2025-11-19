@@ -79,29 +79,6 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 20),
-
-                // Edit Button
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal[700],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    // TODO: Navigate to edit profile
-                  },
-                  icon: Icon(Icons.edit, color: Colors.white),
-                  label: Text(
-                    "Edit Profile",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
