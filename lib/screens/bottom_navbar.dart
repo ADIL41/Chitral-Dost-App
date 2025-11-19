@@ -1,6 +1,7 @@
 import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:chitral_dost_app/screens/home_screen.dart';
+import 'package:chitral_dost_app/screens/profile_screen.dart';
 import 'package:chitral_dost_app/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
             icon: Icon(Icons.book_online),
             label: 'Booking',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
@@ -58,6 +60,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
           },
         );
       case 2:
+        return ProfileScreen();
+      case 3:
         return SettingsScreen();
       default:
         return HomeScreen();
