@@ -21,66 +21,57 @@ class ProfileScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.teal.shade200,
-                  child: Icon(Icons.person, size: 60, color: Colors.white),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.teal.shade200,
+                child: Icon(Icons.person, size: 60, color: Colors.white),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Customer Name',
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'Customer Name',
-                  style: GoogleFonts.poppins(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20),
+              ),
+              const SizedBox(height: 20),
 
-                // Info Card
-                Card(
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.phone, color: Colors.teal[700]),
-                          title: Text(
-                            "+92 300 1234567",
-                            style: GoogleFonts.poppins(fontSize: 16),
-                          ),
+              // Info Card
+              Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.phone, color: Colors.teal[700]),
+                        title: Text(
+                          "+92 300 1234567",
+                          style: GoogleFonts.poppins(fontSize: 16),
                         ),
-                        Divider(),
-                        ListTile(
-                          leading: Icon(Icons.email, color: Colors.teal[700]),
-                          title: Text(
-                            "customer@email.com",
-                            style: GoogleFonts.poppins(fontSize: 16),
-                          ),
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: Icon(Icons.email, color: Colors.teal[700]),
+                        title: Text(
+                          "customer@email.com",
+                          style: GoogleFonts.poppins(fontSize: 16),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
