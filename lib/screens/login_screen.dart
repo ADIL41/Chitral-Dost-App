@@ -12,17 +12,82 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  // Loading variable
   bool _isLoading = false;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  String _getHumanReadableError(dynamic error) {
+    if (error is FirebaseAuthException) {
+      switch (error.code) {
+        case 'user-not-found':
+          return 'No account found with this email';
+        case 'wrong-password':
+          return 'Incorrect password';
+        case 'invalid-email':
+          return 'Invalid email address';
+        case 'user-disabled':
+          return 'Account has been disabled';
+        case 'too-many-requests':
+          return 'Too many attempts. Try again later';
+        case 'network-request-failed':
+          return 'Network error. Check your connection';
+        default:
+          return 'Login failed. Please try again';
+      }
+    }
+    return 'An unexpected error occurred';
+  }
+
+  Future<void> _loginUser() async {
+    if (_isLoading) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavbar()),
+        (route) => false,
+      );
+
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_getHumanReadableError(error)),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _navigateToSignUp() {
+    if (_isLoading || !mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SignUp()),
+    );
   }
 
   @override
@@ -31,18 +96,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final width = size.width;
     final height = size.height;
 
-    double verticalSpace(double fraction) => height * fraction;
-    double horizontalPadding = width * 0.08;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.08),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: verticalSpace(0.08)),
+              SizedBox(height: height * 0.08),
 
               // Logo
               Center(
@@ -51,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: height * 0.18,
                 ),
               ),
-              SizedBox(height: verticalSpace(0.03)),
+              SizedBox(height: height * 0.03),
 
               // App Name
               Text(
@@ -61,17 +123,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Theme.of(context).primaryColor,
                 ),
               ),
-              SizedBox(height: verticalSpace(0.01)),
+              SizedBox(height: height * 0.01),
 
               // Tagline
               Text(
                 "Your Trusted Partner for Home Services",
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(fontSize: width * 0.045),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: width * 0.045,
+                ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: verticalSpace(0.05)),
+              SizedBox(height: height * 0.05),
 
               // Login Form
               Form(
@@ -79,7 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: emailController,
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -87,17 +151,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your email";
+                          return 'Please enter your email';
                         }
-
+                        if (!value.contains('@')) {
+                          return 'Enter a valid email address';
+                        }
                         return null;
                       },
                     ),
-                    SizedBox(height: verticalSpace(0.03)),
+                    SizedBox(height: height * 0.03),
 
                     TextFormField(
-                      controller: passwordController,
+                      controller: _passwordController,
                       obscureText: true,
+                      textInputAction: TextInputAction.done,
                       decoration: const InputDecoration(
                         labelText: 'Password',
                         hintText: 'Enter your password',
@@ -105,66 +172,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter your password";
+                          return 'Please enter your password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
                         }
                         return null;
                       },
+                      onFieldSubmitted: (_) => _loginUser(),
                     ),
-                    SizedBox(height: verticalSpace(0.05)),
+                    SizedBox(height: height * 0.05),
 
                     // Login Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: _isLoading
-                            ? null
-                            : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  setState(() {
-                                    _isLoading = true; // Start loading
-                                  });
-
-                                  try {
-                                    await FirebaseAuth.instance
-                                        .signInWithEmailAndPassword(
-                                          email: emailController.text.trim(),
-                                          password: passwordController.text
-                                              .trim(),
-                                        );
-
-                                    if (!mounted) return;
-
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BottomNavbar(),
-                                      ),
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  } catch (error) {
-                                    if (!mounted) return;
-
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Login failed:${error.toString()}',
-                                        ),
-                                      ),
-                                    );
-                                  } finally {
-                                    if (mounted) {
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                    }
-                                  }
-                                }
-                              },
+                        onPressed: _isLoading ? null : _loginUser,
                         child: _isLoading
-                            ? CircularProgressIndicator(
+                            ? const CircularProgressIndicator(
                                 color: Colors.white,
                                 strokeWidth: 2,
-                              ) // Loading indicator
+                              )
                             : Text(
                                 "Login",
                                 style: TextStyle(fontSize: width * 0.045),
@@ -174,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: verticalSpace(0.03)),
+              SizedBox(height: height * 0.03),
 
               // Sign Up Option
               Row(
@@ -185,30 +213,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(fontSize: width * 0.04),
                   ),
                   InkWell(
-                    onTap: _isLoading
-                        ? null // Disable when loading
-                        : () {
-                            if (!mounted) return;
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUp(),
-                              ),
-                            );
-                          },
+                    onTap: _isLoading ? null : _navigateToSignUp,
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
                         fontSize: width * 0.045,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: _isLoading 
+                            ? Colors.grey 
+                            : Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: verticalSpace(0.05)),
+              SizedBox(height: height * 0.05),
             ],
           ),
         ),

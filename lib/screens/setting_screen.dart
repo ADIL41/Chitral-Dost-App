@@ -11,9 +11,36 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String _selectedLanguage = "English";
-
-  // NEW: Loading variable for logout
   bool _isLoggingOut = false;
+
+  Future<void> _logoutUser() async {
+    if (_isLoggingOut) return;
+
+    setState(() => _isLoggingOut = true);
+
+    try {
+      await FirebaseAuth.instance.signOut();
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Logout failed: $error'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoggingOut = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Profile Info
           ListTile(
             leading: const CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/user.png",
-              ), // replace with your asset or NetworkImage
+              backgroundImage: AssetImage("assets/user.png"),
             ),
             title: const Text("User Name"),
             subtitle: const Text("user@email.com"),
@@ -91,30 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: _isLoggingOut
                 ? Text("Logging out...", style: TextStyle(color: Colors.red))
                 : const Text("Logout", style: TextStyle(color: Colors.red)),
-            onTap: _isLoggingOut
-                ? null
-                : () async {
-                    setState(() {
-                      _isLoggingOut = true; // Start loading
-                    });
-
-                    try {
-                      await FirebaseAuth.instance.signOut();
-
-                      if (!mounted) return;
-
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                    } catch (error) {
-                      if (!mounted) return;
-
-                      setState(() {
-                        _isLoggingOut = false; // Stop loading on error
-                      });
-                    }
-                  },
+            onTap: _isLoggingOut ? null : _logoutUser,
           ),
         ],
       ),

@@ -12,12 +12,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  // Loading variable
   bool _isLoading = false;
 
   @override
@@ -27,6 +26,58 @@ class _SignUpState extends State<SignUp> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _signUpUser() async {
+    if (_isLoading) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Create user in Firebase Auth
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      // Store user data in Firestore
+      await FirebaseFirestore.instance.collection('users').doc().set({
+        'name': nameController.text.trim(),
+        'phone': phoneController.text.trim(),
+        'email': emailController.text.trim(),
+        'password': passwordController.text.trim(),
+      });
+
+      // Navigate to login on success
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    } catch (error) {
+      // Handle errors
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sign up failed: $error'),
+          ),
+        );
+      }
+    } finally {
+      // Always reset loading state
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _navigateToLogin() {
+    if (_isLoading || !mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
 
   @override
@@ -153,61 +204,12 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: _isLoading
-                            ? null
-                            : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  setState(() {
-                                    _isLoading = true; // Start loading
-                                  });
-                                  //firebase code for authentication
-                                  try {
-                                    await FirebaseAuth.instance
-                                        .createUserWithEmailAndPassword(
-                                          email: emailController.text.trim(),
-                                          password: passwordController.text
-                                              .trim(),
-                                        );
-
-                                    //firestore code is this
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc()
-                                        .set({
-                                          'name': nameController.text.trim(),
-                                          'phone': phoneController.text.trim(),
-                                          'email': emailController.text.trim(),
-                                          'password': passwordController.text
-                                              .trim(),
-                                        });
-
-                                    if (!mounted) return;
-
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginScreen(),
-                                      ),
-                                    );
-                                  } catch (error) {
-                                    if (!mounted) return;
-
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  }
-                                }
-                              },
+                        onPressed: _isLoading ? null : _signUpUser,
                         child: _isLoading
                             ? CircularProgressIndicator(
                                 color: Colors.white,
                                 strokeWidth: 2,
-                              ) // Loading indicator
+                              )
                             : Text(
                                 "Sign Up",
                                 style: TextStyle(fontSize: width * 0.045),
@@ -225,18 +227,7 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   const Text("Already have an account?"),
                   TextButton(
-                    onPressed: _isLoading
-                        ? null // Disable when loading
-                        : () {
-                            if (!mounted) return;
-
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                            );
-                          },
+                    onPressed: _isLoading ? null : _navigateToLogin,
                     child: Text(
                       "Login",
                       style: TextStyle(
