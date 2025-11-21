@@ -19,6 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
@@ -118,17 +125,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
 
                                   try {
-                                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                    );
-                                    
+                                    await FirebaseAuth.instance
+                                        .signInWithEmailAndPassword(
+                                          email: emailController.text.trim(),
+                                          password: passwordController.text
+                                              .trim(),
+                                        );
+
                                     if (!mounted) return;
-                                    
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                    
+
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -138,10 +143,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   } catch (error) {
                                     if (!mounted) return;
-                                    
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Login failed:${error.toString()}',
+                                        ),
+                                      ),
+                                    );
+                                  } finally {
+                                    if (mounted) {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                    }
                                   }
                                 }
                               },
