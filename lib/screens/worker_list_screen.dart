@@ -1,8 +1,8 @@
 import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:chitral_dost_app/screens/worker_profile.dart';
-
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class WorkerListScreen extends StatelessWidget {
@@ -17,7 +17,12 @@ class WorkerListScreen extends StatelessWidget {
         backgroundColor: Colors.teal[800],
         title: Text(
           '${service.label} Workers',
-          style: TextStyle(color: Colors.orangeAccent),
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).secondaryHeaderColor,
+            fontSize: 20,
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
