@@ -29,10 +29,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
         },
         selectedItemColor: Colors.orangeAccent,
         unselectedItemColor: Colors.teal[800],
-        backgroundColor: Colors.teal[800],
+        backgroundColor: Colors.white,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         iconSize: 25,
+        selectedLabelStyle: TextStyle(fontSize: 12),
+        unselectedLabelStyle: TextStyle(fontSize: 10),
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
