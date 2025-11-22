@@ -9,7 +9,7 @@ class AuthProvider with ChangeNotifier {
 
   //loading and error state
 
- final bool _isLoading = false;
+  final bool _isLoading = false;
   final bool _isLoggedIn = false;
   String? _errormessage;
 
