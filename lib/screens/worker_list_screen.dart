@@ -16,7 +16,7 @@ class WorkerListScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.teal[800],
         title: Text(
-          '${service.label} Workers',
+          '${service.label} ',
           style: GoogleFonts.poppins(
             color: Theme.of(context).secondaryHeaderColor,
             fontSize: 20,
