@@ -28,7 +28,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
           });
         },
         selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Colors.white,
+        unselectedItemColor: Colors.teal[800],
         backgroundColor: Colors.teal[800],
         showSelectedLabels: true,
         showUnselectedLabels: true,
