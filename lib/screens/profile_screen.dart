@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
               CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.teal.shade200,
-                child: Icon(Icons.person, size: 60, color: Colors.white),
+                child: Icon(Icons.person, size: 60, color: Colors.black),
               ),
               const SizedBox(height: 16),
               Text(
@@ -38,6 +38,8 @@ class ProfileScreen extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  
                 ),
               ),
               const SizedBox(height: 20),
@@ -47,7 +49,9 @@ class ProfileScreen extends StatelessWidget {
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.teal.shade200, width: 1.5),
                 ),
+
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
