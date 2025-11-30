@@ -1,3 +1,4 @@
+import 'package:chitral_dost_app/screens/worker_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,17 +41,32 @@ class WorkerListScreen extends StatelessWidget {
             itemCount: workers.length,
             itemBuilder: (context, index) {
               final worker = workers[index];
-              return Container(
-                width: double.infinity,
-                color: Colors.yellow,
-                margin: const EdgeInsets.only(bottom: 12),
-                child: ListTile(
-                  title: Text(worker['name']),
-                  subtitle: Text(
-                    '${worker['description']}\nPhone: ${worker['phone']}\nPlace: ${worker['place']}',
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          WorkerProfile(worker: worker), // This will work now
+                    ),
+                  );
+                },
+                child: Card(
+                  elevation: 4,
+                  child: Container(
+                    width: double.infinity,
+
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: ListTile(
+                      title: Text('name: ${worker['name']}'),
+                      subtitle: Text('Place: ${worker['place']}'),
+                      isThreeLine: true,
+                      leading: const CircleAvatar(
+                        backgroundColor: Colors.teal,
+                        child: Icon(Icons.person, color: Colors.white),
+                      ),
+                    ),
                   ),
-                  isThreeLine: true,
-                  leading: const Icon(Icons.person, color: Colors.teal),
                 ),
               );
             },

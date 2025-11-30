@@ -1,14 +1,24 @@
-import 'package:chitral_dost_app/models/worker_model.dart';
 import 'package:chitral_dost_app/screens/booking_detail.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WorkerProfile extends StatelessWidget {
-  final WorkerModel worker;
+  final DocumentSnapshot worker;
   const WorkerProfile({super.key, required this.worker});
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    } else {
+      throw 'Could not launch $phoneNumber';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final workerData = worker.data() as Map<String, dynamic>;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -49,7 +59,7 @@ class WorkerProfile extends StatelessWidget {
                           children: [
                             const SizedBox(height: 60), // space for avatar
                             Text(
-                              worker.name,
+                              workerData['name'] ?? 'no name',
                               style: GoogleFonts.poppins(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -59,7 +69,7 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              worker.service.label,
+                              workerData['service'] ?? 'no service',
                               style: GoogleFonts.inter(
                                 fontSize: 18,
                                 color: Colors.orangeAccent,
@@ -68,7 +78,7 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              '📍  ${worker.place}',
+                              '📍  ${workerData['place'] ?? 'No Place'}',
 
                               style: GoogleFonts.inter(
                                 fontSize: 16,
@@ -78,7 +88,7 @@ class WorkerProfile extends StatelessWidget {
 
                             const SizedBox(height: 5),
                             Text(
-                              '📞${worker.phone}',
+                              '📞${workerData['phone'] ?? 'No Phone'}',
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 color: Colors.black87,
@@ -93,7 +103,7 @@ class WorkerProfile extends StatelessWidget {
                         top: 0,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage('assets/images/man.png'),
+                          backgroundImage: AssetImage(''),
                         ),
                       ),
                     ],
@@ -128,7 +138,7 @@ class WorkerProfile extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      worker.description,
+                      workerData['description'] ?? 'No Description',
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         color: Colors.black87,
@@ -151,7 +161,9 @@ class WorkerProfile extends StatelessWidget {
                 backgroundColor: Colors.lightGreen,
                 fixedSize: Size(275, 45),
               ),
-              child: Text('Booking Now'),
+              child: InkWell(
+                onTap: ()=>_makePhoneCall(workerData['phone']),
+                child: Text('Call Now')),
             ),
           ],
         ),
