@@ -1,91 +1,60 @@
-import 'package:chitral_dost_app/models/service_model.dart';
-import 'package:chitral_dost_app/provider/worker_provider.dart';
-import 'package:chitral_dost_app/screens/worker_profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class WorkerListScreen extends StatelessWidget {
-  final ServiceModel service;
-
-  const WorkerListScreen({super.key, required this.service});
+  final String serviceLabel; // The selected service from HomeScreen
+  const WorkerListScreen({super.key, required this.serviceLabel});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal[800],
         title: Text(
-          '${service.label} ',
+          '$serviceLabel Workers',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).secondaryHeaderColor,
-            fontSize: 20,
-            letterSpacing: 2,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
+        backgroundColor: Colors.teal[800],
         centerTitle: true,
       ),
-      body: Consumer<WorkerProvider>(
-        builder: (context, workerProvider, child) {
-          final filteredWorker = workerProvider.getWorkersByService(service);
-          return filteredWorker.isEmpty
-              ? const Center(
-                  child: Text(
-                    'No workers available for this service yet.',
-                    style: TextStyle(fontSize: 16),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('workers')
+            .where('service', isEqualTo: serviceLabel)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('No workers found.'));
+          }
+
+          final workers = snapshot.data!.docs;
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: workers.length,
+            itemBuilder: (context, index) {
+              final worker = workers[index];
+              return Container(
+                width: double.infinity,
+                color: Colors.yellow,
+                margin: const EdgeInsets.only(bottom: 12),
+                child: ListTile(
+                  title: Text(worker['name']),
+                  subtitle: Text(
+                    '${worker['description']}\nPhone: ${worker['phone']}\nPlace: ${worker['place']}',
                   ),
-                )
-              : ListView.builder(
-                  itemCount: filteredWorker.length,
-
-                  itemBuilder: (context, index) {
-                    final worker = filteredWorker[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          gradient: LinearGradient(
-                            colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(child: Icon(Icons.person)),
-                          title: Text(
-                            worker.name,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          subtitle: Text(
-                            worker.phone,
-                            style: TextStyle(color: Colors.black87),
-                          ),
-                          trailing: (Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: Colors.black54,
-                          )),
-                          onTap: () {
-                            workerProvider.selectWorker(worker);
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    WorkerProfile(worker: worker),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                );
+                  isThreeLine: true,
+                  leading: const Icon(Icons.person, color: Colors.teal),
+                ),
+              );
+            },
+          );
         },
       ),
     );

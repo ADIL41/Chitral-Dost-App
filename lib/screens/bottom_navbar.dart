@@ -58,7 +58,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       case 1:
         return Consumer<WorkerProvider>(
           builder: (context, workerProvider, child) {
-            return BookingDetail(workers: workerProvider.workers);
+            return BookingDetail();
           },
         );
       case 2:

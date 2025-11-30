@@ -14,4 +14,6 @@ class ServiceModel {
     required this.avatarColor,
     required this.address,
   });
+
+
 }

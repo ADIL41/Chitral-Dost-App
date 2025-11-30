@@ -144,9 +144,7 @@ class WorkerProfile extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => BookingDetail(workers: [worker]),
-                  ),
+                  MaterialPageRoute(builder: (context) => BookingDetail()),
                 );
               },
               style: ElevatedButton.styleFrom(

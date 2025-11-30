@@ -101,17 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         backgroundColor: service.backgroundColor,
                         avatarColor: service.avatarColor,
                         onTap: () {
-                          final provider = Provider.of<ServiceProvider>(
-                            context,
-                            listen: false,
-                          );
-                          provider.selectService(service);
-
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  WorkerListScreen(service: service),
+                                  WorkerListScreen(serviceLabel: service.label),
                             ),
                           );
                         },

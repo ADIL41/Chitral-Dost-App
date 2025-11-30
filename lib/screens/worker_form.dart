@@ -1,6 +1,7 @@
 import 'package:chitral_dost_app/data/service_data.dart';
 import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:chitral_dost_app/provider/worker_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -188,17 +189,22 @@ class _WorkerFormState extends State<WorkerForm> {
                 onPressed: () {
                   if (_formKey.currentState!.validate() &&
                       _selectedService != null) {
-                    final workerProvider = Provider.of<WorkerProvider>(
-                      context,
-                      listen: false,
-                    );
-                    workerProvider.addWorker(
-                      _nameController.text,
-                      _selectedService!,
-                      _phoneController.text,
-                      _placeController.text,
-                      _descriptionController.text,
-                    );
+                    Provider.of<WorkerProvider>(context, listen: false);
+
+                    FirebaseFirestore.instance.collection('workers').add({
+                      'name': _nameController.text,
+                      'service': _selectedService!.label,
+                      'phone': _phoneController.text,
+                      'place': _placeController.text,
+                      'description': _descriptionController.text,
+                    });
+                    // workerProvider.addWorker(
+                    //   _nameController.text,
+                    //   _selectedService!,
+                    //   _phoneController.text,
+                    //   _placeController.text,
+                    //   _descriptionController.text,
+                    // );
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Submitted successfully'),

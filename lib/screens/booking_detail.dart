@@ -1,13 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/worker_model.dart'; // adjust path if needed
-
 class BookingDetail extends StatelessWidget {
-  final List<WorkerModel> workers;
+  const BookingDetail({super.key});
 
-  const BookingDetail({required this.workers, super.key});
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(launchUri)) {
@@ -24,7 +22,7 @@ class BookingDetail extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.teal[800],
         title: Text(
-          'Booking Detail',
+          'All Service Providers',
           style: GoogleFonts.poppins(
             color: Theme.of(context).secondaryHeaderColor,
             fontSize: 20,
@@ -34,59 +32,74 @@ class BookingDetail extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: workers.length,
-        itemBuilder: (context, index) {
-          final worker = workers[index];
-          return Card(
-            margin: EdgeInsets.all(12),
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            worker.name,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('workers').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                          Text(worker.place, style: TextStyle(fontSize: 14)),
-                          SizedBox(height: 6),
-                          Text(worker.phone, style: TextStyle(fontSize: 14)),
-                          SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: () {
-                              _makePhoneCall(worker.phone);
-                            },
-                            child: Text('Call Now'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('No service providers found.'));
+          }
+
+          final docs = snapshot.data!.docs;
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: docs.length,
+            itemBuilder: (context, index) {
+              final data = docs[index].data() as Map<String, dynamic>;
+
+              final name = data['name'] ?? '';
+              final service = data['service'] ?? '';
+              final phone = data['phone'] ?? '';
+              final place = data['place'] ?? '';
+              final description = data['description'] ?? '';
+
+              return Card(
+                margin: const EdgeInsets.only(bottom: 12),
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-            ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(service, style: const TextStyle(fontSize: 14)),
+                        Text(place, style: const TextStyle(fontSize: 14)),
+                        Text(phone, style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 8),
+                        Text(description, style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () => _makePhoneCall(phone),
+                          child: const Text('Call Now'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
