@@ -198,13 +198,7 @@ class _WorkerFormState extends State<WorkerForm> {
                       'place': _placeController.text,
                       'description': _descriptionController.text,
                     });
-                    // workerProvider.addWorker(
-                    //   _nameController.text,
-                    //   _selectedService!,
-                    //   _phoneController.text,
-                    //   _placeController.text,
-                    //   _descriptionController.text,
-                    // );
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Submitted successfully'),
