@@ -64,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const BottomNavbar()),
         (route) => false,
       );
-
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -128,9 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
               // Tagline
               Text(
                 "Your Trusted Partner for Home Services",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: width * 0.045,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontSize: width * 0.045),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: height * 0.05),
@@ -218,8 +217,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       "Sign Up",
                       style: TextStyle(
                         fontSize: width * 0.045,
-                        color: _isLoading 
-                            ? Colors.grey 
+                        color: _isLoading
+                            ? Colors.grey
                             : Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,
                       ),
