@@ -38,7 +38,7 @@ class AddSerciveCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Add your skills and become available for customers to hire.',
               style: TextStyle(
@@ -49,7 +49,7 @@ class AddSerciveCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.justify,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Align(
               alignment: Alignment.centerLeft,
               child: ElevatedButton(
@@ -64,7 +64,7 @@ class AddSerciveCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   textStyle: TextStyle(fontSize: screenWidth * 0.035),
                 ),
-                child: Text('Add Service'),
+                child: const Text('Add Service'),
               ),
             ),
           ],

@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.black87,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'What service do you need today?',
               style: GoogleFonts.poppins(
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.orangeAccent,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Explore Services',
               style: GoogleFonts.poppins(
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
             // Service Grid
             Container(
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'Add Services You  Here 👇 ',
               style: GoogleFonts.poppins(
@@ -125,12 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
             // ServiceCard
             AddSerciveCard(),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

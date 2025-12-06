@@ -25,7 +25,7 @@ class WelcomeSceen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -52,7 +52,7 @@ class WelcomeSceen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             Padding(
               padding: const EdgeInsets.all(20),
@@ -62,7 +62,7 @@ class WelcomeSceen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
 
             SizedBox(
               width: 250,
@@ -73,7 +73,7 @@ class WelcomeSceen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
-                child: Text('Get start'),
+                child: const Text('Get start'),
               ),
             ),
           ],

@@ -69,7 +69,7 @@ class _WorkerFormState extends State<WorkerForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               TextFormField(
                 controller: _serviceController,
                 readOnly: true,
@@ -114,12 +114,12 @@ class _WorkerFormState extends State<WorkerForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               TextFormField(
                 controller: _descriptionController,
                 maxLines: 4,
                 maxLength: 300,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Service Description',
                   hintText:
                       'Describe your skills, experience, services you offer, etc...',
@@ -139,7 +139,7 @@ class _WorkerFormState extends State<WorkerForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               TextFormField(
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
@@ -166,7 +166,7 @@ class _WorkerFormState extends State<WorkerForm> {
                   return null;
                 },
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               TextFormField(
                 controller: _placeController,
                 decoration: const InputDecoration(

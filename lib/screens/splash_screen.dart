@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 color: Colors.teal,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Your Trusted Partner for Home Services",
               style: GoogleFonts.inter(

@@ -39,7 +39,6 @@ class ProfileScreen extends StatelessWidget {
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
-                  
                 ),
               ),
               const SizedBox(height: 20),
@@ -63,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                           style: GoogleFonts.poppins(fontSize: 16),
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
                         leading: Icon(Icons.email, color: Colors.teal[700]),
                         title: Text(

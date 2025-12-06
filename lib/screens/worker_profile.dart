@@ -111,7 +111,7 @@ class WorkerProfile extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             // 🆕 DESCRIPTION SECTION - ADDED HERE
             Padding(
@@ -136,7 +136,7 @@ class WorkerProfile extends StatelessWidget {
                         color: Colors.orangeAccent,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       workerData['description'] ?? 'No Description',
                       style: GoogleFonts.inter(
@@ -149,7 +149,7 @@ class WorkerProfile extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -162,8 +162,9 @@ class WorkerProfile extends StatelessWidget {
                 fixedSize: Size(275, 45),
               ),
               child: InkWell(
-                onTap: ()=>_makePhoneCall(workerData['phone']),
-                child: Text('Call Now')),
+                onTap: () => _makePhoneCall(workerData['phone']),
+                child: const Text('Call Now'),
+              ),
             ),
           ],
         ),

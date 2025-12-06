@@ -35,7 +35,7 @@ class ServiceTile extends StatelessWidget {
               backgroundColor: avatarColor,
               child: Icon(icon, color: Colors.white, size: 30),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               label,
               style: TextStyle(
