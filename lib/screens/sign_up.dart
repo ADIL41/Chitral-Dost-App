@@ -36,17 +36,20 @@ class _SignUpState extends State<SignUp> {
 
     try {
       // Create user in Firebase Auth
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
+      final userId = userCredential.user!.uid;
 
       // Store user data in Firestore
-      await FirebaseFirestore.instance.collection('users').doc().set({
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        'uid': userId,
         'name': nameController.text.trim(),
         'phone': phoneController.text.trim(),
         'email': emailController.text.trim(),
-        'password': passwordController.text.trim(),
+        'createdAt': FieldValue.serverTimestamp(),
       });
 
       // Navigate to login on success
@@ -58,11 +61,9 @@ class _SignUpState extends State<SignUp> {
     } catch (error) {
       // Handle errors
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Sign up failed: $error'),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Sign up failed: $error')));
       }
     } finally {
       // Always reset loading state
@@ -177,7 +178,11 @@ class _SignUpState extends State<SignUp> {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
                         }
-
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
+                          return "Please enter a valid email";
+                        }
                         return null;
                       },
                     ),
