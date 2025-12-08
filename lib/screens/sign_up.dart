@@ -2,6 +2,7 @@ import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -152,6 +153,11 @@ class _SignUpState extends State<SignUp> {
                     TextFormField(
                       controller: phoneController,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter
+                            .digitsOnly, // only allow digits
+                        LengthLimitingTextInputFormatter(11), // max 11 digits
+                      ],
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
                         hintText: 'enter your phone number',
@@ -160,6 +166,9 @@ class _SignUpState extends State<SignUp> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your number";
+                        }
+                        if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
+                          return "Please enter a valid phone number";
                         }
                         return null;
                       },
