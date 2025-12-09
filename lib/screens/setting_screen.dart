@@ -2,6 +2,7 @@ import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -22,6 +23,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     try {
       await FirebaseAuth.instance.signOut();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', false);
+      await prefs.remove('userId');
+      await prefs.remove('userEmail');
 
       if (!mounted) return;
       Navigator.pushReplacement(
@@ -68,8 +73,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
+          if (!snapshot.hasData || snapshot.data?.data() == null) {
+            return const Center(child: Text("No user data found"));
+          }
+
           final user = snapshot.data!.data() as Map<String, dynamic>;
           return ListView(
             children: [
