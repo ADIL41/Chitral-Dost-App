@@ -57,7 +57,7 @@ class WorkerProfile extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 60), // space for avatar
+                            const SizedBox(height: 65), // space for avatar
                             Text(
                               workerData['name'] ?? 'no name',
                               style: GoogleFonts.poppins(
@@ -103,7 +103,11 @@ class WorkerProfile extends StatelessWidget {
                         top: 4,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage(''),
+                          child: Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ],
