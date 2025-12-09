@@ -100,7 +100,7 @@ class WorkerProfile extends StatelessWidget {
                         ),
                       ),
                       const Positioned(
-                        top: 0,
+                        top: 4,
                         child: CircleAvatar(
                           radius: 50,
                           backgroundImage: AssetImage(''),
