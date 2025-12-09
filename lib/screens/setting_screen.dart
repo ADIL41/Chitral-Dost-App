@@ -1,4 +1,5 @@
 import 'package:chitral_dost_app/screens/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _selectedLanguage = "English";
   bool _isLoggingOut = false;
+  final User? currentUser = FirebaseAuth.instance.currentUser;
 
   Future<void> _logoutUser() async {
     if (_isLoggingOut) return;
@@ -58,67 +60,81 @@ class _SettingsScreenState extends State<SettingsScreen> {
         centerTitle: true,
         backgroundColor: Colors.teal[800],
       ),
-      body: ListView(
-        children: [
-          // Profile Info
-          ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: AssetImage("assets/user.png"),
-            ),
-            title: const Text("User Name"),
-            subtitle: const Text("user@email.com"),
-          ),
+      // firebase firestore added to fech real time data
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser?.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          final user = snapshot.data!.data() as Map<String, dynamic>;
+          return ListView(
+            children: [
+              // Profile Info
+              ListTile(
+                leading: const CircleAvatar(child: Icon(Icons.person)),
+                title: Text(user['name'] ?? 'No Name'),
+                subtitle: Text(user['email'] ?? 'no email'),
+              ),
 
-          const Divider(),
+              const Divider(),
 
-          // Language
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: const Text("Language"),
-            trailing: DropdownButton<String>(
-              value: _selectedLanguage,
-              items: const [
-                DropdownMenuItem(value: "English", child: Text("English")),
-              ],
-              onChanged: (value) {
-                setState(() {
-                  _selectedLanguage = value!;
-                });
-              },
-            ),
-          ),
+              // Language
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text("Language"),
+                trailing: DropdownButton<String>(
+                  value: _selectedLanguage,
+                  items: const [
+                    DropdownMenuItem(value: "English", child: Text("English")),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedLanguage = value!;
+                    });
+                  },
+                ),
+              ),
 
-          const Divider(),
+              const Divider(),
 
-          // Help & Support
-          const ListTile(
-            leading: Icon(Icons.help),
-            title: Text("Help & Support"),
-          ),
+              // Help & Support
+              const ListTile(
+                leading: Icon(Icons.help),
+                title: Text("Help & Support"),
+              ),
 
-          // About App
-          const ListTile(leading: Icon(Icons.info), title: Text("About")),
+              // About App
+              const ListTile(leading: Icon(Icons.info), title: Text("About")),
 
-          const Divider(),
+              const Divider(),
 
-          // Logout
-          ListTile(
-            leading: _isLoggingOut
-                ? SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.red,
-                    ),
-                  )
-                : const Icon(Icons.logout, color: Colors.red),
-            title: _isLoggingOut
-                ? Text("Logging out...", style: TextStyle(color: Colors.red))
-                : const Text("Logout", style: TextStyle(color: Colors.red)),
-            onTap: _isLoggingOut ? null : _logoutUser,
-          ),
-        ],
+              // Logout
+              ListTile(
+                leading: _isLoggingOut
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.red,
+                        ),
+                      )
+                    : const Icon(Icons.logout, color: Colors.red),
+                title: _isLoggingOut
+                    ? Text(
+                        "Logging out...",
+                        style: TextStyle(color: Colors.red),
+                      )
+                    : const Text("Logout", style: TextStyle(color: Colors.red)),
+                onTap: _isLoggingOut ? null : _logoutUser,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
