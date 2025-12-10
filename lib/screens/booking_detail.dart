@@ -1,3 +1,4 @@
+import 'package:chitral_dost_app/Utils/search_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -84,17 +85,7 @@ class _BookingDetailState extends State<BookingDetail> {
                     ? allDocs
                     : allDocs.where((doc) {
                         final data = doc.data() as Map<String, dynamic>;
-
-                        return data['name'].toString().toLowerCase().contains(
-                              _searchText,
-                            ) ||
-                            data['service'].toString().toLowerCase().contains(
-                              _searchText,
-                            ) ||
-                            data['place'].toString().toLowerCase().contains(
-                              _searchText,
-                            ) ||
-                            data['phone'].toString().contains(_searchText);
+                        return WorkerSearch.matchesQuery(data, _searchText);
                       }).toList();
 
                 if (filteredDocs.isEmpty && _searchText.isNotEmpty) {
