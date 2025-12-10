@@ -178,7 +178,6 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                     final name = data['name'] as String? ?? 'Unknown';
                     final place =
                         data['place'] as String? ?? 'Location not specified';
-                    final phone = data['phone'] as String? ?? 'No phone';
                     final description =
                         data['description'] as String? ?? 'No description';
 
