@@ -6,6 +6,8 @@ class WorkerModel {
   final String phone;
   final String place;
   final String description;
+  final double latitude;
+  final double longitude;
 
   WorkerModel({
     required this.name,
@@ -13,5 +15,7 @@ class WorkerModel {
     required this.service,
     required this.place,
     required this.description,
+    required this.latitude,
+    required this.longitude,
   });
 }

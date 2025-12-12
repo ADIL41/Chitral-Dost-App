@@ -1,4 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+ <!-- Essential for foreground location (Precise and Approximate) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- REQUIRED for Android 14+ if using a foreground service for location -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <application
         android:label="Chitral Dost"
         android:name="${applicationName}"
@@ -37,9 +48,28 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
-        </intent>
-    </queries>
+    <!-- For text processing (required by Flutter) -->
+    <intent>
+        <action android:name="android.intent.action.PROCESS_TEXT" />
+        <data android:mimeType="text/plain" />
+    </intent>
+    
+    <!-- For making phone calls -->
+    <intent>
+        <action android:name="android.intent.action.DIAL" />
+        <data android:scheme="tel" />
+    </intent>
+    
+    <!-- For opening WhatsApp -->
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="https" android:host="wa.me" />
+    </intent>
+    
+    <!-- For opening Google Maps -->
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="https" android:host="www.google.com" />
+    </intent>
+</queries>
 </manifest>

@@ -12,6 +12,8 @@ class WorkerProvider with ChangeNotifier {
   WorkerProvider() {
     _loadWorkers();
   }
+  
+
 
   void _loadWorkers() {
     _workers = [];
@@ -28,6 +30,8 @@ class WorkerProvider with ChangeNotifier {
     String phone,
     String place,
     String description,
+    double latitude,
+    double longitude,
   ) {
     final newworker = WorkerModel(
       name: name,
@@ -35,6 +39,8 @@ class WorkerProvider with ChangeNotifier {
       phone: phone,
       place: place,
       description: description,
+      latitude: latitude,
+      longitude:longitude,      
     );
     _workers.add(newworker);
     notifyListeners();

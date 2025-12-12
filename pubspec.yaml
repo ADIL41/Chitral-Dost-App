@@ -42,6 +42,9 @@ dependencies:
   cloud_firestore: ^6.1.0
   image_picker: ^1.2.1
   shared_preferences: ^2.5.4
+  geolocator: ^14.0.2
+  geocoding: ^4.0.0
+  geoflutterfire_plus: ^0.0.33
  
 
 dev_dependencies:
