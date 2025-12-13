@@ -1,6 +1,5 @@
 import 'package:chitral_dost_app/data/service_data.dart';
 import 'package:chitral_dost_app/models/service_model.dart';
-import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire_plus/geoflutterfire_plus.dart'; // ADD THIS
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class WorkerForm extends StatefulWidget {
   const WorkerForm({super.key});
@@ -37,8 +35,7 @@ class _WorkerFormState extends State<WorkerForm> {
   String? _place;
 
   //final geoCollection = GeoCollectionReference<Map<String, dynamic>>(
-    //FirebaseFirestore.instance.collection('locations'),
-  
+  //FirebaseFirestore.instance.collection('locations'),
 
   @override
   void initState() {
@@ -269,7 +266,6 @@ class _WorkerFormState extends State<WorkerForm> {
     // Example: Getting the data map (contains 'geopoint' and 'geohash')
 
     // Submit to Firebase
-    Provider.of<WorkerProvider>(context, listen: false);
 
     FirebaseFirestore.instance
         .collection('workers')

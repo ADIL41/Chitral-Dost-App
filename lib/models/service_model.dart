@@ -5,15 +5,160 @@ class ServiceModel {
   final IconData icon;
   final Color backgroundColor;
   final Color avatarColor;
-  final String address;
+  // NOTE: Address field is now removed from ServiceModel to avoid confusion
+  // as the worker's address is dynamic (stored in WorkerModel.place).
 
   ServiceModel({
     required this.label,
     required this.icon,
     required this.backgroundColor,
     required this.avatarColor,
-    required this.address,
   });
 
+  // --- 1. Static List to hold ALL defined services (for Home Screen display) ---
+  static final List<ServiceModel> allServices = [
+    ServiceModel(
+      label: "Cleaning",
+      icon: Icons.cleaning_services,
+      backgroundColor: const Color(
+        0xFFB0E0E6,
+      ), // Changed to unique color for worker profile
+      avatarColor: Colors.blue,
+    ),
+    ServiceModel(
+      label: "Plumbing",
+      icon: Icons.plumbing,
+      backgroundColor: const Color(0xFFF9C0C0),
+      avatarColor: Colors.green,
+    ),
+    ServiceModel(
+      label: "Electrician",
+      icon: Icons.electrical_services,
+      backgroundColor: const Color(0xFFFFDAB9),
+      avatarColor: Colors.orange,
+    ),
+    ServiceModel(
+      label: "Delivery",
+      icon: Icons.local_shipping,
+      backgroundColor: const Color(0xFFE6CCFF),
+      avatarColor: Colors.purple,
+    ),
+    ServiceModel(
+      label: "Police",
+      icon: Icons.local_police,
+      backgroundColor: const Color(0xFFFFCCCC),
+      avatarColor: Colors.redAccent,
+    ),
+    ServiceModel(
+      label: "Doctor",
+      icon: Icons.medical_services,
+      backgroundColor: const Color(0xFFCCFFCC),
+      avatarColor: Colors.teal,
+    ),
+    ServiceModel(
+      label: "Bike Rider",
+      icon: Icons.pedal_bike,
+      backgroundColor: const Color(0xFFCCCCFF),
+      avatarColor: Colors.indigo,
+    ),
+    ServiceModel(
+      label: "Carpenter",
+      icon: Icons.handyman,
+      backgroundColor: const Color(0xFFD2B48C),
+      avatarColor: Colors.brown,
+    ),
+    ServiceModel(
+      label: "Painter",
+      icon: Icons.format_paint,
+      backgroundColor: const Color(0xFFFFE0B2),
+      avatarColor: Colors.deepOrange,
+    ),
+    ServiceModel(
+      label: "Gardener",
+      icon: Icons.grass,
+      backgroundColor: const Color(0xFFE0FFE0),
+      avatarColor: Colors.green,
+    ),
+    ServiceModel(
+      label: "AC Technician",
+      icon: Icons.ac_unit,
+      backgroundColor: const Color(0xFFB3E5FC),
+      avatarColor: Colors.lightBlue,
+    ),
+    ServiceModel(
+      label: "Appliance Repair",
+      icon: Icons.kitchen,
+      backgroundColor: const Color(0xFFE0E0E0),
+      avatarColor: Colors.indigo,
+    ),
+    ServiceModel(
+      label: "Maid Service",
+      icon: Icons.cleaning_services,
+      backgroundColor: const Color(0xFFFFC0CB),
+      avatarColor: Colors.pink,
+    ),
+    ServiceModel(
+      label: "Laundry",
+      icon: Icons.local_laundry_service,
+      backgroundColor: const Color(0xFFADD8E6),
+      avatarColor: Colors.blueGrey,
+    ),
+    ServiceModel(
+      label: "Cook",
+      icon: Icons.restaurant,
+      backgroundColor: const Color(0xFFFFD700),
+      avatarColor: Colors.redAccent,
+    ),
+    ServiceModel(
+      label: "Tutor",
+      icon: Icons.menu_book,
+      backgroundColor: const Color(0xFFF0F8FF),
+      avatarColor: Colors.teal,
+    ),
+    ServiceModel(
+      label: "Baby Sitter",
+      icon: Icons.child_care,
+      backgroundColor: const Color(0xFFFFFACD),
+      avatarColor: Colors.purple,
+    ),
+    ServiceModel(
+      label: "Driver",
+      icon: Icons.drive_eta,
+      backgroundColor: const Color(0xFFD3D3D3),
+      avatarColor: Colors.blue,
+    ),
+    ServiceModel(
+      label: "Security Guard",
+      icon: Icons.security,
+      backgroundColor: const Color(0xFF696969),
+      avatarColor: Colors.black,
+    ),
+    ServiceModel(
+      label: "Barber",
+      icon: Icons.content_cut,
+      backgroundColor: const Color(0xFFBA55D3),
+      avatarColor: Colors.deepPurple,
+    ),
+  ];
 
+  // --- 2. Static Map for QUICK LOOKUP (Used by WorkerModel factory) ---
+  static final Map<String, ServiceModel> _serviceLookup = {
+    for (var service in allServices) service.label: service,
+  };
+
+  // --- 3. Factory to get the full object from a simple label string ---
+  factory ServiceModel.fromLabel(String label) {
+    // Return the specific ServiceModel instance from the map
+    return _serviceLookup[label] ??
+        // Fallback to a default if the label is not found
+        ServiceModel(
+          label: label,
+          icon: Icons.error,
+          backgroundColor: Colors.red,
+          avatarColor: Colors.white,
+        );
+  }
 }
+
+// NOTE: You can now access this list on your Home Screen like this:
+// final services = ServiceModel.allServices;
