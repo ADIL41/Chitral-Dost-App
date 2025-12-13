@@ -19,7 +19,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     // Using postFrameCallback is acceptable here since it relies on the context being ready.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_isInitialized) {
@@ -197,6 +197,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
     if (workers.isEmpty) {
       return const Center(
         child: Text(
+          textAlign: TextAlign.center,
           'No workers found. Try increasing radius or changing search text.',
         ),
       );
