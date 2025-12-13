@@ -257,7 +257,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                 Text(worker.place),
                 Text(
                   worker.description,
-                  maxLines: 1,
+                  maxLines: 10,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
