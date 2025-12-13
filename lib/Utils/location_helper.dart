@@ -2,7 +2,7 @@
 import 'package:geolocator/geolocator.dart';
 
 class LocationHelper {
-  // Get user's current location
+  
   static Future<Position> getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
