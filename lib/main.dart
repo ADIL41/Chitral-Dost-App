@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:chitral_dost_app/firebase_options.dart';
 import 'package:chitral_dost_app/provider/service_provider.dart';
 import 'package:chitral_dost_app/provider/worker_provider.dart';
@@ -19,7 +20,7 @@ Future<void> main() async {
   // Preserve the native splash screen while initialization runs
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  //  Initialize Firebase 
+  //  Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _determineInitialScreen() async {
-    //  Add a short delay to ensure minimum logo display time 
+    //  Add a short delay to ensure minimum logo display time
     await Future.delayed(const Duration(milliseconds: 500));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,7 +72,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    
     // while initialization is still running after the native splash is gone.
     if (_initialScreen == null) {
       // Return a simple, un-themed loading widget
