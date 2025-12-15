@@ -13,13 +13,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  // 1. Ensure Flutter bindings are initialized
+  //  Ensure Flutter bindings are initialized
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-  // 2. Preserve the native splash screen while initialization runs
+  // Preserve the native splash screen while initialization runs
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  // 3. Initialize Firebase (must be done before runApp)
+  //  Initialize Firebase 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _determineInitialScreen() async {
-    // Optional: Add a short delay to ensure minimum logo display time (e.g., 500ms)
+    //  Add a short delay to ensure minimum logo display time 
     await Future.delayed(const Duration(milliseconds: 500));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -63,15 +63,15 @@ class _MyAppState extends State<MyApp> {
       _initialScreen = const LoginScreen();
     }
 
-    // 4. Initialization complete, remove the native splash screen
+    // Initialization complete, remove the native splash screen
     FlutterNativeSplash.remove();
-    // 5. Trigger a rebuild to show the correct initial screen
+    //  Trigger a rebuild to show the correct initial screen
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    // If _initialScreen is null, we show a basic loading screen
+    
     // while initialization is still running after the native splash is gone.
     if (_initialScreen == null) {
       // Return a simple, un-themed loading widget

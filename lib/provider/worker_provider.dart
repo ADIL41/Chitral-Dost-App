@@ -35,7 +35,7 @@ class WorkerProvider with ChangeNotifier {
 
   // Getter that returns the final list (Geo-filtered AND Text-searched)
   List<WorkerModel> get filteredWorkers {
-    // 1. If no search text, return the list directly from GeoFire
+    //  If no search text, return the list directly from GeoFire
     if (_searchText.isEmpty) {
       // Sort by distance (closest first) for the UI
       _nearbyWorkers.sort((a, b) {
@@ -47,7 +47,7 @@ class WorkerProvider with ChangeNotifier {
       return _nearbyWorkers;
     }
 
-    // 2. Perform text search on the already geo-filtered list
+    //  Perform text search on the already geo-filtered list
     return _nearbyWorkers.where((worker) {
       // Create a temporary map for your existing search utility
       final searchData = {
@@ -63,19 +63,19 @@ class WorkerProvider with ChangeNotifier {
 
   // --- Initialization & Data Loading Actions ---
 
-  // 1. Used by WorkerListScreen (requires a service filter)
+  //  Used by WorkerListScreen (requires a service filter)
   Future<void> initLocationAndWorkers(String serviceLabel) async {
     _currentServiceLabel = serviceLabel;
     await _loadAndSetupWorkers();
   }
 
-  // 2. Used by BookingDetail (All Workers, no service filter)
+  //  Used by BookingDetail (All Workers, no service filter)
   Future<void> loadAllWorkers() async {
     _currentServiceLabel = ''; // Clear service filter
     await _loadAndSetupWorkers();
   }
 
-  // 3. Core logic to get location and start the stream
+  //  Core logic to get location and start the stream
   Future<void> _loadAndSetupWorkers() async {
     _errorMessage = '';
 
@@ -98,7 +98,7 @@ class WorkerProvider with ChangeNotifier {
     _setupGeoListener();
   }
 
-  // 4. Setup the GeoFire Stream Listener (The Core Logic)
+  //  Setup the GeoFire Stream Listener (The Core Logic)
   void _setupGeoListener() {
     if (_userLocation == null) {
       // Cannot listen without location, error message should already be set.
@@ -174,7 +174,7 @@ class WorkerProvider with ChangeNotifier {
 
   // --- Action Methods ---
 
-  // 5. Update Radius
+  //  Update Radius
   void setRadius(double newRadius) {
     if (_radius != newRadius) {
       _radius = newRadius;
@@ -183,20 +183,20 @@ class WorkerProvider with ChangeNotifier {
     }
   }
 
-  // 6. Update Search Text
+  //  Update Search Text
   void setSearchText(String text) {
     _searchText = text.trim();
     notifyListeners(); // Triggers filteredWorkers getter re-calculation
   }
 
-  // 7. Refresh Location manually
+  //  Refresh Location manually
   Future<void> refreshLocation() async {
     _userLocation = null;
     // Reloads all workers based on the current service filter (or lack thereof)
     await _loadAndSetupWorkers();
   }
 
-  // 8. Clean up
+  //  Clean up
   @override
   void dispose() {
     _geoSubscription
