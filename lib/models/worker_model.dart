@@ -44,7 +44,6 @@ class WorkerModel {
     return WorkerModel(
       id: doc.id, // Correctly using the document ID
       name: data['name'] ?? '',
-      // REMOVED: 'serviceLabel: data['service'] ?? '', ' -> This field doesn't exist in the class
       phone: data['phone'] ?? '',
       place: data['place'] ?? '',
       description: data['description'] ?? '',
