@@ -3,6 +3,7 @@ import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:chitral_dost_app/screens/home_screen.dart';
 import 'package:chitral_dost_app/screens/profile_screen.dart';
 import 'package:chitral_dost_app/screens/setting_screen.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,34 +20,50 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 2. Add extendBody: true to allow the body to extend behind the curve (recommended)
+      extendBody: true,
       body: _getPage(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
-        selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Colors.teal[800],
-        backgroundColor: Colors.white,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        iconSize: 25,
-        selectedLabelStyle: TextStyle(fontSize: 12),
-        unselectedLabelStyle: TextStyle(fontSize: 10),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
-            label: 'Booking',
+
+      bottomNavigationBar: CurvedNavigationBar(
+        index: _selectedIndex,
+        height: 55.0,
+        // Define colors for the curved bar
+        color: Colors.teal.shade800,
+        buttonBackgroundColor: Colors.deepOrange.shade400,
+        backgroundColor: Colors
+            .transparent, // Should match Scaffold background, use transparent if extendBody: true
+
+        animationCurve: Curves.easeInOut,
+        animationDuration: const Duration(milliseconds: 300),
+
+        // Items must be a List<Widget> (Icons)
+        items: <Widget>[
+          Icon(
+            Icons.home,
+            size: 30,
+            color: _selectedIndex == 0 ? Colors.white : Colors.white,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+          Icon(
+            Icons.book_online,
+            size: 30,
+            color: _selectedIndex == 1 ? Colors.white : Colors.white,
+          ),
+          Icon(
+            Icons.person,
+            size: 30,
+            color: _selectedIndex == 2 ? Colors.white : Colors.white,
+          ),
+          Icon(
+            Icons.settings,
+            size: 30,
+            color: _selectedIndex == 3 ? Colors.white : Colors.white,
           ),
         ],
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

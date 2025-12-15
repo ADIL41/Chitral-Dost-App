@@ -68,6 +68,7 @@ dependencies:
   geoflutterfire_plus: ^0.0.33
   flutter_native_splash: ^2.4.7
   cloudinary_public: ^0.23.1
+  curved_navigation_bar: ^1.0.6
   
  
 
