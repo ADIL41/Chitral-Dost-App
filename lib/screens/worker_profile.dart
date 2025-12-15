@@ -31,6 +31,7 @@ class WorkerProfile extends StatelessWidget {
     final String place = worker.place;
     final String phone = worker.phone;
     final String description = worker.description;
+    final String? profilePictureUrl = worker.profilePictureUrl;
     // --- END REQUIRED FIXES ---
 
     return Scaffold(
@@ -119,15 +120,33 @@ class WorkerProfile extends StatelessWidget {
                         ),
                       ),
                       // ... (Avatar remains the same)
-                      const Positioned(
+                      // ✅ NEW CODE WITH PROFILE PICTURE LOGIC:
+                      Positioned(
                         top: 4,
                         child: CircleAvatar(
                           radius: 50,
-                          child: Icon(
-                            Icons.person,
-                            size: 60,
-                            color: Colors.black,
-                          ),
+                          backgroundColor: Colors
+                              .white, // Add a background color for contrast
+                          // Check if the URL is not null and not empty
+                          backgroundImage:
+                              (profilePictureUrl != null &&
+                                  profilePictureUrl.isNotEmpty)
+                              // If a URL exists, use NetworkImage to fetch the picture
+                              ? NetworkImage(profilePictureUrl)
+                                    as ImageProvider<Object>?
+                              : null,
+
+                          // The child widget (the Icon) only shows if backgroundImage is null
+                          // (i.e., no picture URL found)
+                          child:
+                              (profilePictureUrl == null ||
+                                  profilePictureUrl.isEmpty)
+                              ? const Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.black,
+                                )
+                              : null, // No child needed if the image is loading/loaded
                         ),
                       ),
                     ],

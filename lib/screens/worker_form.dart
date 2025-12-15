@@ -1,10 +1,11 @@
 import 'package:chitral_dost_app/data/service_data.dart';
 import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geoflutterfire_plus/geoflutterfire_plus.dart'; // ADD THIS
+import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,10 +23,7 @@ class _WorkerFormState extends State<WorkerForm> {
   final _phoneController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  // Remove _placeController since we'll get it automatically
   ServiceModel? _selectedService;
-
-  // Location variables
 
   bool _isGettingLocation = false;
   String _locationStatus = 'Tap to get location';
@@ -33,9 +31,6 @@ class _WorkerFormState extends State<WorkerForm> {
   double? _longitude;
   String? _address;
   String? _place;
-
-  //final geoCollection = GeoCollectionReference<Map<String, dynamic>>(
-  //FirebaseFirestore.instance.collection('locations'),
 
   @override
   void initState() {
@@ -239,7 +234,7 @@ class _WorkerFormState extends State<WorkerForm> {
   }
 
   // UPDATED SUBMIT FORM WITH GEOFLUTTERFIRE_PLUS
-  void _submitForm() {
+  void _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedService == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -260,70 +255,91 @@ class _WorkerFormState extends State<WorkerForm> {
       return;
     }
 
+    // --- CRITICAL CHANGES ---
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Error: You must be logged in to register as a worker.',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Get the user's UID to use as the Document ID (workerId)
+    final String workerId = currentUser.uid;
+    // --- END OF CRITICAL CHANGES ---
+
     final GeoPoint firestoreGeoPoint = GeoPoint(_latitude!, _longitude!);
     final GeoFirePoint geoFirePoint = GeoFirePoint(firestoreGeoPoint);
 
-    // Example: Getting the data map (contains 'geopoint' and 'geohash')
-
-    // Submit to Firebase
-
-    FirebaseFirestore.instance
-        .collection('workers')
-        .add({
-          'name': _nameController.text,
-          'service': _selectedService!.label,
-          'phone': _phoneController.text,
-          'place': _place, // Auto-detected location
-          'description': _descriptionController.text,
-          'latitude': _latitude, // Added automatically
-          'longitude': _longitude, // Added automatically
-          'address': _address, // Full address if available
-          'geo': geoFirePoint.data, // Optional but useful
-          'createdAt': FieldValue.serverTimestamp(),
-          'locationUpdatedAt': FieldValue.serverTimestamp(),
-        })
-        .then((_) {
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Worker registered successfully with location!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-
-          // Clear form after successful submission
-          _nameController.clear();
-          _serviceController.clear();
-          _phoneController.clear();
-          _descriptionController.clear();
-          setState(() {
-            _selectedService = null;
-            _place = null;
-            _latitude = null;
-            _longitude = null;
-            _address = null;
-            _locationStatus = 'Tap to get location';
+    // Submit to Firebase using .doc(workerId).set()
+    try {
+      await FirebaseFirestore.instance
+          .collection('workers')
+          // Use .doc(UID).set() to match the Firestore Security Rule:
+          // allow write: if request.auth.uid == workerId;
+          .doc(workerId)
+          .set({
+            'name': _nameController.text,
+            'service': _selectedService!.label,
+            'phone': _phoneController.text,
+            'place': _place,
+            'description': _descriptionController.text,
+            'latitude': _latitude,
+            'longitude': _longitude,
+            'address': _address,
+            'geo': geoFirePoint.data,
+            'workerUID': workerId,
+            'createdAt': FieldValue.serverTimestamp(),
+            'locationUpdatedAt': FieldValue.serverTimestamp(),
           });
 
-          // Get fresh location for next registration
-          _getCurrentLocation();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Worker registered successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
 
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context);
-        })
-        .catchError((error) {
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Error: $error'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        });
+      // Clear form after successful submission
+      _nameController.clear();
+      _serviceController.clear();
+      _phoneController.clear();
+      _descriptionController.clear();
+      setState(() {
+        _selectedService = null;
+        _place = null;
+        _latitude = null;
+        _longitude = null;
+        _address = null;
+        _locationStatus = 'Tap to get location';
+      });
+
+      // Get fresh location for next registration
+      _getCurrentLocation();
+
+      Navigator.pop(context);
+    } on FirebaseException catch (error) {
+      // This handles the permission denied error directly
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error registering worker: ${error.message}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // The build method contains the original UI, preserved as requested.
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -612,7 +628,7 @@ class _WorkerFormState extends State<WorkerForm> {
                             foregroundColor: _place != null
                                 ? Colors.teal
                                 : Colors.white,
-                            side: BorderSide(color: Colors.teal),
+                            side: const BorderSide(color: Colors.teal),
                           ),
                         ),
                       ),

@@ -16,6 +16,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isLoggingOut = false;
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
+  // Helper function to check if the user is a worker
+  Future<bool> _isWorker() async {
+    final userId = currentUser?.uid;
+    if (userId == null) return false;
+    final workerDoc = await FirebaseFirestore.instance
+        .collection('workers')
+        .doc(userId)
+        .get();
+    return workerDoc.exists;
+  }
+
   Future<void> _logoutUser() async {
     if (_isLoggingOut) return;
 
@@ -51,6 +62,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (currentUser == null) {
+      return const Center(child: Text("Please log in."));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -65,83 +80,123 @@ class _SettingsScreenState extends State<SettingsScreen> {
         centerTitle: true,
         backgroundColor: Colors.teal[800],
       ),
-      // firebase firestore added to fech real time data
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(currentUser?.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data?.data() == null) {
-            return const Center(child: Text("No user data found"));
+
+      // STEP 1: Use FutureBuilder to check the user's role once
+      body: FutureBuilder<bool>(
+        future: _isWorker(),
+        builder: (context, workerSnapshot) {
+          if (workerSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
           }
 
-          final user = snapshot.data!.data() as Map<String, dynamic>;
-          return ListView(
-            children: [
-              // Profile Info
-              ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.person)),
-                title: Text(user['name'] ?? 'No Name'),
-                subtitle: Text(user['email'] ?? 'no email'),
-              ),
+          final bool isWorker = workerSnapshot.data ?? false;
+          final String collectionName = isWorker ? 'workers' : 'users';
 
-              const Divider(),
+          // STEP 2: Use StreamBuilder to fetch real-time data from the correct collection
+          return StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection(collectionName) // <--- Dynamic collection
+                .doc(currentUser!.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (!snapshot.hasData || snapshot.data?.data() == null) {
+                return const Center(child: Text("No user data found"));
+              }
 
-              // Language
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text("Language"),
-                trailing: DropdownButton<String>(
-                  value: _selectedLanguage,
-                  items: const [
-                    DropdownMenuItem(value: "English", child: Text("English")),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedLanguage = value!;
-                    });
-                  },
-                ),
-              ),
+              final user = snapshot.data!.data() as Map<String, dynamic>;
+              final String? profilePictureUrl =
+                  user['profilePictureUrl'] as String?; // <--- Fetch the URL
 
-              const Divider(),
+              return ListView(
+                children: [
+                  // Profile Info
+                  ListTile(
+                    // STEP 3: Display the profile picture from the fetched URL
+                    leading: CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.teal.shade200,
+                      backgroundImage:
+                          profilePictureUrl != null &&
+                              profilePictureUrl.isNotEmpty
+                          ? NetworkImage(profilePictureUrl)
+                          : null,
+                      child:
+                          (profilePictureUrl == null ||
+                              profilePictureUrl.isEmpty)
+                          ? const Icon(Icons.person, color: Colors.black)
+                          : null,
+                    ),
+                    title: Text(user['name'] ?? 'No Name'),
+                    subtitle: Text(user['email'] ?? 'no email'),
+                  ),
 
-              // Help & Support
-              const ListTile(
-                leading: Icon(Icons.help),
-                title: Text("Help & Support"),
-              ),
+                  const Divider(),
 
-              // About App
-              const ListTile(leading: Icon(Icons.info), title: Text("About")),
-
-              const Divider(),
-
-              // Logout
-              ListTile(
-                leading: _isLoggingOut
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.red,
+                  // Language
+                  ListTile(
+                    leading: const Icon(Icons.language),
+                    title: const Text("Language"),
+                    trailing: DropdownButton<String>(
+                      value: _selectedLanguage,
+                      items: const [
+                        DropdownMenuItem(
+                          value: "English",
+                          child: Text("English"),
                         ),
-                      )
-                    : const Icon(Icons.logout, color: Colors.red),
-                title: _isLoggingOut
-                    ? Text(
-                        "Logging out...",
-                        style: TextStyle(color: Colors.red),
-                      )
-                    : const Text("Logout", style: TextStyle(color: Colors.red)),
-                onTap: _isLoggingOut ? null : _logoutUser,
-              ),
-            ],
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedLanguage = value!;
+                        });
+                      },
+                    ),
+                  ),
+
+                  const Divider(),
+
+                  // Help & Support
+                  const ListTile(
+                    leading: Icon(Icons.help),
+                    title: Text("Help & Support"),
+                  ),
+
+                  // About App
+                  const ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text("About"),
+                  ),
+
+                  const Divider(),
+
+                  // Logout
+                  ListTile(
+                    leading: _isLoggingOut
+                        ? SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.red,
+                            ),
+                          )
+                        : const Icon(Icons.logout, color: Colors.red),
+                    title: _isLoggingOut
+                        ? Text(
+                            "Logging out...",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        : const Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                    onTap: _isLoggingOut ? null : _logoutUser,
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

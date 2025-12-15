@@ -202,13 +202,15 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
         ),
       );
     }
-
     // List View
     return ListView.builder(
       padding: const EdgeInsets.all(12),
       itemCount: workers.length,
       itemBuilder: (context, index) {
         final worker = workers[index];
+        // 💡 NEW: Extract the URL for the list item
+        final String? profilePictureUrl = worker.profilePictureUrl;
+
         return Card(
           margin: const EdgeInsets.only(bottom: 12),
           shape: RoundedRectangleBorder(
@@ -219,10 +221,23 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
             leading: Stack(
               clipBehavior: Clip.none,
               children: [
-                const CircleAvatar(
+                // 🛠️ REQUIRED CHANGE APPLIED HERE 🛠️
+                CircleAvatar(
                   backgroundColor: Colors.teal,
-                  child: Icon(Icons.person, color: Colors.white),
+                  // Use NetworkImage if URL exists and is not empty
+                  backgroundImage:
+                      (profilePictureUrl != null &&
+                          profilePictureUrl.isNotEmpty)
+                      ? NetworkImage(profilePictureUrl)
+                            as ImageProvider<Object>?
+                      : null,
+                  // Show default icon only if there is no image
+                  child:
+                      (profilePictureUrl == null || profilePictureUrl.isEmpty)
+                      ? const Icon(Icons.person, color: Colors.white)
+                      : null,
                 ),
+                // 🛠️ END OF REQUIRED CHANGE 🛠️
                 if (worker.distanceInKm != null)
                   Positioned(
                     bottom: -5,
@@ -238,10 +253,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                       ),
                       child: Text(
                         '${worker.distanceInKm!.toStringAsFixed(1)} km',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),

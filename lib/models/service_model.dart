@@ -93,7 +93,7 @@ class ServiceModel {
     ),
     ServiceModel(
       label: "Maid Service",
-      icon: Icons.cleaning_services,
+      icon: Icons.home_work,
       backgroundColor: const Color(0xFFFFC0CB),
       avatarColor: Colors.pink,
     ),

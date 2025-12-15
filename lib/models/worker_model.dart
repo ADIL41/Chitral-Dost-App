@@ -2,7 +2,6 @@ import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WorkerModel {
-  // 1. ADD MISSING ID FIELD
   final String id;
   final String name;
   final ServiceModel service;
@@ -12,6 +11,8 @@ class WorkerModel {
   final double latitude;
   final double longitude;
   final double? distanceInKm;
+  // 💡 NEW/UPDATED: profilePictureUrl field
+  String? profilePictureUrl;
 
   WorkerModel({
     required this.id,
@@ -22,7 +23,8 @@ class WorkerModel {
     required this.description,
     required this.latitude,
     required this.longitude,
-    required this.distanceInKm,
+    this.distanceInKm,
+    this.profilePictureUrl,
   });
 
   // Factory to create from Firestore Document
@@ -38,21 +40,25 @@ class WorkerModel {
       if (value is int) {
         return value.toDouble();
       }
+      // Assuming coordinates are stored under 'latitude'/'longitude' keys
       return (value ?? 0.0) as double;
     }
 
     return WorkerModel(
-      id: doc.id, // Correctly using the document ID
+      // The document ID (UID) is the authoritative ID for the model
+      id: doc.id,
       name: data['name'] ?? '',
       phone: data['phone'] ?? '',
       place: data['place'] ?? '',
       description: data['description'] ?? '',
-      // Safely casting to double
+
       latitude: safeToDouble(data['latitude']),
       longitude: safeToDouble(data['longitude']),
 
-      // Correctly initializing the ServiceModel object
       service: ServiceModel.fromLabel(serviceLabelFromDB),
+
+      // 💡 KEY FIX: Read the profile picture URL
+      profilePictureUrl: data['profilePictureUrl'] as String?,
 
       distanceInKm: calculatedDistance,
     );
