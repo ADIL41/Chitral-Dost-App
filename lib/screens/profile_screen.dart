@@ -18,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   // State to manage the upload process loading indicator
   bool _isUploading = false;
+  bool _isDeletingWorker = false;
 
   // HELPER: Check if user has a worker document
   Future<bool> _isWorker() async {
@@ -30,16 +31,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return workerDoc.exists;
   }
 
+  // CORE LOGIC: Worker Profile Deletion 
+  Future<void> _deleteWorkerProfile() async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) return;
+
+    setState(() {
+      _isDeletingWorker = true;
+    });
+    try {
+      // 1. Delete the worker document from Firestore
+      await FirebaseFirestore.instance
+          .collection('workers')
+          .doc(currentUser.uid)
+          .delete();
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Worker profile deleted successfully. You are now a standard user.',
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete worker profile: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        
+        setState(() {
+          _isDeletingWorker = false;
+        });
+      }
+    }
+  } // 💡 FIX: Closing brace for _deleteWorkerProfile 💡
+
+  
+  Future<void> _showDeleteConfirmationDialog() async {
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: const Text(
+            textAlign: TextAlign.center,
+            'Are you sure you want to delete your Worker Service Profile? This action is permanent and cannot be undone.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      await _deleteWorkerProfile();
+    }
+  }
+
   // UPLOAD LOGIC: Dynamically targets 'workers' or 'users' collection
   Future<void> _changeProfilePicture({required bool isWorker}) async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
 
+    // 💡 FIX: Restoring image picking logic 💡
     final picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
     if (pickedFile == null) return;
+    // -------------------------------------
 
     setState(() {
       _isUploading = true;
@@ -181,11 +255,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.white,
                             size: 18,
                           ),
-                          label: const Text(
-                            'Worker Account',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          label: _isDeletingWorker
+                              ? const Text(
+                                  'Deleting...',
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              : const Text(
+                                  'Worker Account',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                           backgroundColor: Colors.red[700],
+                          deleteIcon: _isDeletingWorker
+                              ? const SizedBox(
+                                  width: 15,
+                                  height: 15,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                          onDeleted: _isDeletingWorker
+                              ? null
+                              : _showDeleteConfirmationDialog, // Trigger confirmation dialog
                         ),
                       const SizedBox(height: 10),
 
