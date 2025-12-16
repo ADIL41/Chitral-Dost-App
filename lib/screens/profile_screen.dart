@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return workerDoc.exists;
   }
 
-  // CORE LOGIC: Worker Profile Deletion 
+  // CORE LOGIC: Worker Profile Deletion
   Future<void> _deleteWorkerProfile() async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
@@ -64,7 +64,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     } finally {
       if (mounted) {
-        
         setState(() {
           _isDeletingWorker = false;
         });
@@ -72,7 +71,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   } // 💡 FIX: Closing brace for _deleteWorkerProfile 💡
 
-  
   Future<void> _showDeleteConfirmationDialog() async {
     final bool? confirm = await showDialog<bool>(
       context: context,
