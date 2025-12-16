@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -196,7 +197,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             radius: 50,
                             backgroundColor: Colors.teal.shade200,
                             backgroundImage: profilePictureUrl != null
-                                ? NetworkImage(profilePictureUrl)
+                                ? CachedNetworkImageProvider(profilePictureUrl)
+                                      as ImageProvider
                                 : null,
                             child: profilePictureUrl == null
                                 ? const Icon(

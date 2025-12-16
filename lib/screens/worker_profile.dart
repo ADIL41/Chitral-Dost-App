@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitral_dost_app/models/service_model.dart';
 import 'package:chitral_dost_app/models/worker_model.dart';
 import 'package:flutter/material.dart';
@@ -131,8 +132,8 @@ class WorkerProfile extends StatelessWidget {
                           backgroundImage:
                               (profilePictureUrl != null &&
                                   profilePictureUrl.isNotEmpty)
-                              // If a URL exists, use NetworkImage to fetch the picture
-                              ? NetworkImage(profilePictureUrl)
+                              
+                              ? CachedNetworkImageProvider(profilePictureUrl)
                                     as ImageProvider<Object>?
                               : null,
 

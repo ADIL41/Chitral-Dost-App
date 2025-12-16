@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitral_dost_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -121,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       backgroundImage:
                           profilePictureUrl != null &&
                               profilePictureUrl.isNotEmpty
-                          ? NetworkImage(profilePictureUrl)
+                          ? CachedNetworkImageProvider(profilePictureUrl)
                           : null,
                       child:
                           (profilePictureUrl == null ||

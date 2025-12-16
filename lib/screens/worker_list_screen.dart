@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:chitral_dost_app/screens/worker_profile.dart';
 import 'package:flutter/material.dart';
@@ -224,11 +225,11 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                 // 🛠️ REQUIRED CHANGE APPLIED HERE 🛠️
                 CircleAvatar(
                   backgroundColor: Colors.teal,
-                  // Use NetworkImage if URL exists and is not empty
+                  radius: 28,
                   backgroundImage:
                       (profilePictureUrl != null &&
                           profilePictureUrl.isNotEmpty)
-                      ? NetworkImage(profilePictureUrl)
+                      ? CachedNetworkImageProvider(profilePictureUrl)
                             as ImageProvider<Object>?
                       : null,
                   // Show default icon only if there is no image
