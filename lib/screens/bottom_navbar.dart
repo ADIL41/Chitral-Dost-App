@@ -20,23 +20,20 @@ class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 2. Add extendBody: true to allow the body to extend behind the curve (recommended)
       extendBody: true,
       body: _getPage(_selectedIndex),
 
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedIndex,
         height: 55.0,
-        // Define colors for the curved bar
+
         color: Colors.teal.shade800,
         buttonBackgroundColor: Colors.deepOrange.shade400,
-        backgroundColor: Colors
-            .transparent, // Should match Scaffold background, use transparent if extendBody: true
+        backgroundColor: Colors.transparent,
 
         animationCurve: Curves.easeInOut,
         animationDuration: const Duration(milliseconds: 300),
 
-        // Items must be a List<Widget> (Icons)
         items: <Widget>[
           Icon(
             Icons.home,

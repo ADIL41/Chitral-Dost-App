@@ -17,7 +17,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isLoggingOut = false;
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
-  // Helper function to check if the user is a worker
   Future<bool> _isWorker() async {
     final userId = currentUser?.uid;
     if (userId == null) return false;
@@ -82,7 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: Colors.teal[800],
       ),
 
-      // STEP 1: Use FutureBuilder to check the user's role once
       body: FutureBuilder<bool>(
         future: _isWorker(),
         builder: (context, workerSnapshot) {
@@ -93,10 +91,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           final bool isWorker = workerSnapshot.data ?? false;
           final String collectionName = isWorker ? 'workers' : 'users';
 
-          // STEP 2: Use StreamBuilder to fetch real-time data from the correct collection
           return StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance
-                .collection(collectionName) // <--- Dynamic collection
+                .collection(collectionName)
                 .doc(currentUser!.uid)
                 .snapshots(),
             builder: (context, snapshot) {
@@ -109,13 +106,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
               final user = snapshot.data!.data() as Map<String, dynamic>;
               final String? profilePictureUrl =
-                  user['profilePictureUrl'] as String?; // <--- Fetch the URL
+                  user['profilePictureUrl'] as String?;
 
               return ListView(
                 children: [
-                  // Profile Info
                   ListTile(
-                    // STEP 3: Display the profile picture from the fetched URL
                     leading: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.teal.shade200,
@@ -136,7 +131,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   const Divider(),
 
-                  // Language
                   ListTile(
                     leading: const Icon(Icons.language),
                     title: const Text("Language"),
@@ -158,13 +152,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   const Divider(),
 
-                  // Help & Support
                   const ListTile(
                     leading: Icon(Icons.help),
                     title: Text("Help & Support"),
                   ),
 
-                  // About App
                   const ListTile(
                     leading: Icon(Icons.info),
                     title: Text("About"),

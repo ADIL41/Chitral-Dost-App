@@ -5,8 +5,6 @@ class ServiceModel {
   final IconData icon;
   final Color backgroundColor;
   final Color avatarColor;
-  // NOTE: Address field is now removed from ServiceModel to avoid confusion
-  // as the worker's address is dynamic (stored in WorkerModel.place).
 
   ServiceModel({
     required this.label,
@@ -15,14 +13,11 @@ class ServiceModel {
     required this.avatarColor,
   });
 
-  // --- 1. Static List to hold ALL defined services (for Home Screen display) ---
   static final List<ServiceModel> allServices = [
     ServiceModel(
       label: "Cleaning",
       icon: Icons.cleaning_services,
-      backgroundColor: const Color(
-        0xFFB0E0E6,
-      ), // Changed to unique color for worker profile
+      backgroundColor: const Color(0xFFB0E0E6),
       avatarColor: Colors.blue,
     ),
     ServiceModel(
@@ -141,16 +136,12 @@ class ServiceModel {
     ),
   ];
 
-  // --- 2. Static Map for QUICK LOOKUP (Used by WorkerModel factory) ---
   static final Map<String, ServiceModel> _serviceLookup = {
     for (var service in allServices) service.label: service,
   };
 
-  // --- 3. Factory to get the full object from a simple label string ---
   factory ServiceModel.fromLabel(String label) {
-    // Return the specific ServiceModel instance from the map
     return _serviceLookup[label] ??
-        // Fallback to a default if the label is not found
         ServiceModel(
           label: label,
           icon: Icons.error,
@@ -159,6 +150,3 @@ class ServiceModel {
         );
   }
 }
-
-// NOTE: You can now access this list on your Home Screen like this:
-// final services = ServiceModel.allServices;

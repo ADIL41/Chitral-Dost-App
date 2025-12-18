@@ -16,11 +16,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // State to manage the upload process loading indicator
   bool _isUploading = false;
   bool _isDeletingWorker = false;
 
-  // HELPER: Check if user has a worker document
   Future<bool> _isWorker() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) return false;
@@ -31,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return workerDoc.exists;
   }
 
-  // CORE LOGIC: Worker Profile Deletion
   Future<void> _deleteWorkerProfile() async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
@@ -40,7 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _isDeletingWorker = true;
     });
     try {
-      // 1. Delete the worker document from Firestore
       await FirebaseFirestore.instance
           .collection('workers')
           .doc(currentUser.uid)
@@ -69,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
       }
     }
-  } // 💡 FIX: Closing brace for _deleteWorkerProfile 💡
+  }
 
   Future<void> _showDeleteConfirmationDialog() async {
     final bool? confirm = await showDialog<bool>(
@@ -100,30 +96,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // UPLOAD LOGIC: Dynamically targets 'workers' or 'users' collection
   Future<void> _changeProfilePicture({required bool isWorker}) async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
 
-    // 💡 FIX: Restoring image picking logic 💡
     final picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
     if (pickedFile == null) return;
-    // -------------------------------------
 
     setState(() {
       _isUploading = true;
     });
 
-    // Determine the collection folder based on the user's role for Cloudinary
     final String folderName = isWorker ? 'worker_profiles' : 'user_profiles';
     final db = FirebaseFirestore.instance;
     final uid = currentUser.uid;
 
     try {
-      // 1. Upload to Cloudinary
       final response = await CloudinaryConfig.cloudinary.uploadFile(
         CloudinaryFile.fromFile(
           pickedFile.path,
@@ -134,31 +125,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       final String imageUrl = response.secureUrl;
 
-      // 2. SYNCHRONIZATION: Update Firebase using an Atomic Batch Write
       if (imageUrl.isNotEmpty) {
-        // Initialize the Batch
         final batch = db.batch();
 
-        // Data to be written to both collections
         final updateData = {
           'profilePictureUrl': imageUrl,
           'updatedAt': FieldValue.serverTimestamp(),
         };
 
-        // A. ALWAYS Update the 'users' collection document
         final userDocRef = db.collection('users').doc(uid);
-        // Use .set with merge: true to update the document, or create it if missing
+
         batch.set(userDocRef, updateData, SetOptions(merge: true));
 
-        // B. CONDITIONAL: Update the 'workers' collection document if it exists
-        // The `isWorker` flag tells us if the document is present.
         if (isWorker) {
           final workerDocRef = db.collection('workers').doc(uid);
-          // Use .update() which requires the document to exist
+
           batch.update(workerDocRef, updateData);
         }
 
-        // Commit the Batch (all or nothing)
         await batch.commit();
 
         if (!mounted) return;
@@ -168,7 +152,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      // Log error for debugging
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -205,18 +188,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
       ),
 
-      // Use FutureBuilder to check the user's role first
       body: FutureBuilder<bool>(
         future: _isWorker(),
         builder: (context, workerSnapshot) {
           final bool isWorker = workerSnapshot.data ?? false;
 
-          // Use StreamBuilder to fetch data from the correct collection
           return StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance
-                .collection(
-                  isWorker ? 'workers' : 'users',
-                ) // Dynamic collection selection
+                .collection(isWorker ? 'workers' : 'users')
                 .doc(currentUser.uid)
                 .snapshots(),
             builder: (context, userSnapshot) {
@@ -233,7 +212,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               final String? profilePictureUrl =
                   userData['profilePictureUrl'] as String?;
 
-              // Extract data for display
               final String userName = userData['name'] ?? 'No Name';
               final String userPhone = userData['phone'] ?? 'No Phone';
               final String userEmail =
@@ -245,7 +223,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // --- Role Status Chip ---
                       if (isWorker)
                         Chip(
                           avatar: const Icon(
@@ -281,11 +258,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                           onDeleted: _isDeletingWorker
                               ? null
-                              : _showDeleteConfirmationDialog, // Trigger confirmation dialog
+                              : _showDeleteConfirmationDialog,
                         ),
                       const SizedBox(height: 10),
 
-                      // PROFILE PICTURE AREA WITH UPLOAD FUNCTIONALITY
                       Stack(
                         alignment: Alignment.center,
                         children: [
@@ -305,7 +281,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 : null,
                           ),
 
-                          // Loading indicator when uploading
                           if (_isUploading)
                             const Positioned.fill(
                               child: CircularProgressIndicator(
@@ -313,7 +288,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
 
-                          // Camera Icon Button (Tap to upload)
                           Positioned(
                             bottom: 0,
                             right: 0,
@@ -348,7 +322,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 20),
 
-                      // Info Card
                       Card(
                         elevation: 3,
                         shape: RoundedRectangleBorder(

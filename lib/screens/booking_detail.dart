@@ -12,7 +12,6 @@ class BookingDetail extends StatefulWidget {
 }
 
 class _BookingDetailState extends State<BookingDetail> {
-  // REQUIRED: Flag to ensure data loading runs only once
   bool _isInit = true;
 
   Future<void> _makePhoneCall(String phoneNumber) async {
@@ -22,31 +21,28 @@ class _BookingDetailState extends State<BookingDetail> {
     }
   }
 
-  // REQUIRED: Using didChangeDependencies for reliable one-time loading
   @override
   void didChangeDependencies() {
     if (_isInit) {
       final provider = context.read<WorkerProvider>();
-      
-      // Load data only if the list is empty and we are not already loading
+
       if (provider.filteredWorkers.isEmpty && !provider.isLoading) {
         provider.loadAllWorkers();
       }
-      _isInit = false; // Prevents loading again on subsequent rebuilds
+      _isInit = false;
     }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    // --- Watch the Provider ---
     final provider = context.watch<WorkerProvider>();
     final workers = provider.filteredWorkers;
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        // Using theme color for better consistency
+
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(
           'All Service Providers',
@@ -59,8 +55,7 @@ class _BookingDetailState extends State<BookingDetail> {
         ),
         centerTitle: true,
       ),
-      // The Builder widget is no longer needed since the initialization logic
-      // has been moved out of the build method.
+
       body: Column(
         children: [
           // Search Bar
@@ -74,22 +69,19 @@ class _BookingDetailState extends State<BookingDetail> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              // Use context.read() to trigger the state change
+
               onChanged: (value) {
                 context.read<WorkerProvider>().setSearchText(value);
               },
             ),
           ),
 
-          // Error Message Check
           if (provider.errorMessage.isNotEmpty)
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Error: ${provider.errorMessage}',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
-                ),
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ),
 
@@ -105,15 +97,12 @@ class _BookingDetailState extends State<BookingDetail> {
     WorkerProvider provider,
     List workers,
   ) {
-    // 1. Loading State
     if (provider.isLoading && workers.isEmpty) {
       return const Center(child: CircularProgressIndicator(color: Colors.teal));
     }
 
-    // 2. Empty/No Match State
     if (workers.isEmpty) {
       if (provider.searchText.isNotEmpty) {
-        // A. No match found for search
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +118,6 @@ class _BookingDetailState extends State<BookingDetail> {
           ),
         );
       } else if (provider.errorMessage.isEmpty) {
-        // B. Truly empty list
         return Center(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
@@ -160,14 +148,12 @@ class _BookingDetailState extends State<BookingDetail> {
       }
     }
 
-    // 3. List View
     return ListView.builder(
       padding: const EdgeInsets.all(12),
       itemCount: workers.length,
       itemBuilder: (context, index) {
         final worker = workers[index];
 
-        // Extract data from the WorkerModel object
         final name = worker.name;
         final service = worker.service.label;
         final phone = worker.phone;
@@ -183,7 +169,7 @@ class _BookingDetailState extends State<BookingDetail> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              // Retaining the original gradient for visual consistency
+
               gradient: const LinearGradient(
                 colors: [Color(0xff84fab0), Color(0xff8fd3f4)],
                 begin: Alignment.topLeft,

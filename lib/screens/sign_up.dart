@@ -37,7 +37,6 @@ class _SignUpState extends State<SignUp> {
     setState(() => _isLoading = true);
 
     try {
-      // Create user in Firebase Auth
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: emailController.text.trim(),
@@ -45,7 +44,6 @@ class _SignUpState extends State<SignUp> {
           );
       final userId = userCredential.user!.uid;
 
-      // Store user data in Firestore
       await FirebaseFirestore.instance.collection('users').doc(userId).set({
         'uid': userId,
         'name': nameController.text.trim(),
@@ -54,21 +52,18 @@ class _SignUpState extends State<SignUp> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // Navigate to login on success
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     } catch (error) {
-      // Handle errors
       if (mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Sign up failed: $error')));
       }
     } finally {
-      // Always reset loading state
       if (mounted) {
         setState(() => _isLoading = false);
       }
@@ -102,7 +97,6 @@ class _SignUpState extends State<SignUp> {
             children: [
               SizedBox(height: verticalSpace(0.08)),
 
-              // Logo
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
@@ -111,7 +105,6 @@ class _SignUpState extends State<SignUp> {
               ),
               SizedBox(height: verticalSpace(0.03)),
 
-              // App Name
               Text(
                 "Create Your Account",
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
@@ -121,7 +114,6 @@ class _SignUpState extends State<SignUp> {
               ),
               SizedBox(height: verticalSpace(0.01)),
 
-              // Tagline
               Text(
                 "Your Trusted Partner for Home Services",
                 style: Theme.of(
@@ -131,7 +123,6 @@ class _SignUpState extends State<SignUp> {
               ),
               SizedBox(height: verticalSpace(0.05)),
 
-              // Sign Up Form
               Form(
                 key: _formKey,
                 child: Column(
@@ -155,9 +146,8 @@ class _SignUpState extends State<SignUp> {
                       controller: phoneController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        FilteringTextInputFormatter
-                            .digitsOnly, // only allow digits
-                        LengthLimitingTextInputFormatter(11), // max 11 digits
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(11),
                       ],
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
@@ -228,7 +218,6 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(height: verticalSpace(0.05)),
 
-                    // Sign Up Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -249,7 +238,6 @@ class _SignUpState extends State<SignUp> {
               ),
               SizedBox(height: verticalSpace(0.03)),
 
-              // Already have an account?
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

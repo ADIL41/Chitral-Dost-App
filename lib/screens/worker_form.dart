@@ -35,7 +35,7 @@ class _WorkerFormState extends State<WorkerForm> {
   @override
   void initState() {
     super.initState();
-    // Optionally get location automatically when form loads
+
     _getCurrentLocation();
   }
 
@@ -48,7 +48,6 @@ class _WorkerFormState extends State<WorkerForm> {
     super.dispose();
   }
 
-  // Get current location with all details
   Future<void> _getCurrentLocation() async {
     setState(() {
       _isGettingLocation = true;
@@ -56,7 +55,6 @@ class _WorkerFormState extends State<WorkerForm> {
     });
 
     try {
-      // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         setState(() {
@@ -67,7 +65,6 @@ class _WorkerFormState extends State<WorkerForm> {
         return;
       }
 
-      // Check and request permissions
       LocationPermission permission = await Geolocator.checkPermission();
 
       if (permission == LocationPermission.denied) {
@@ -93,18 +90,15 @@ class _WorkerFormState extends State<WorkerForm> {
         return;
       }
 
-      // Get current position
       const locationSettings = LocationSettings(
         accuracy: LocationAccuracy.high,
         timeLimit: Duration(seconds: 15),
       );
 
-      // Pass the settings object to getCurrentPosition
       Position position = await Geolocator.getCurrentPosition(
         locationSettings: locationSettings,
       );
 
-      // Get address details from coordinates
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
@@ -117,10 +111,8 @@ class _WorkerFormState extends State<WorkerForm> {
           _latitude = position.latitude;
           _longitude = position.longitude;
 
-          // Format address
           _address = _formatAddress(placemark);
 
-          // Use locality or subLocality as place
           _place =
               placemark.locality ??
               placemark.subLocality ??
@@ -146,7 +138,6 @@ class _WorkerFormState extends State<WorkerForm> {
         _isGettingLocation = false;
       });
 
-      // Fallback: Allow manual location entry
       _showManualLocationDialog();
     }
   }
@@ -185,7 +176,7 @@ class _WorkerFormState extends State<WorkerForm> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              _getCurrentLocation(); // Try again
+              _getCurrentLocation();
             },
             child: const Text('Retry'),
           ),
@@ -219,7 +210,7 @@ class _WorkerFormState extends State<WorkerForm> {
                 setState(() {
                   _place = manualPlaceController.text;
                   _locationStatus = 'Manual location entered';
-                  // Use default Chitral coordinates as fallback
+
                   _latitude = 35.8511;
                   _longitude = 71.7861;
                 });
@@ -233,7 +224,6 @@ class _WorkerFormState extends State<WorkerForm> {
     );
   }
 
-  // UPDATED SUBMIT FORM WITH GEOFLUTTERFIRE_PLUS
   void _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedService == null) {
@@ -255,7 +245,6 @@ class _WorkerFormState extends State<WorkerForm> {
       return;
     }
 
-    // --- CRITICAL CHANGES ---
     final User? currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser == null) {
@@ -270,34 +259,26 @@ class _WorkerFormState extends State<WorkerForm> {
       return;
     }
 
-    // Get the user's UID to use as the Document ID (workerId)
     final String workerId = currentUser.uid;
-    // --- END OF CRITICAL CHANGES ---
 
     final GeoPoint firestoreGeoPoint = GeoPoint(_latitude!, _longitude!);
     final GeoFirePoint geoFirePoint = GeoFirePoint(firestoreGeoPoint);
 
-    // Submit to Firebase using .doc(workerId).set()
     try {
-      await FirebaseFirestore.instance
-          .collection('workers')
-          // Use .doc(UID).set() to match the Firestore Security Rule:
-          // allow write: if request.auth.uid == workerId;
-          .doc(workerId)
-          .set({
-            'name': _nameController.text,
-            'service': _selectedService!.label,
-            'phone': _phoneController.text,
-            'place': _place,
-            'description': _descriptionController.text,
-            'latitude': _latitude,
-            'longitude': _longitude,
-            'address': _address,
-            'geo': geoFirePoint.data,
-            'workerUID': workerId,
-            'createdAt': FieldValue.serverTimestamp(),
-            'locationUpdatedAt': FieldValue.serverTimestamp(),
-          });
+      await FirebaseFirestore.instance.collection('workers').doc(workerId).set({
+        'name': _nameController.text,
+        'service': _selectedService!.label,
+        'phone': _phoneController.text,
+        'place': _place,
+        'description': _descriptionController.text,
+        'latitude': _latitude,
+        'longitude': _longitude,
+        'address': _address,
+        'geo': geoFirePoint.data,
+        'workerUID': workerId,
+        'createdAt': FieldValue.serverTimestamp(),
+        'locationUpdatedAt': FieldValue.serverTimestamp(),
+      });
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -307,7 +288,6 @@ class _WorkerFormState extends State<WorkerForm> {
         ),
       );
 
-      // Clear form after successful submission
       _nameController.clear();
       _serviceController.clear();
       _phoneController.clear();
@@ -321,13 +301,10 @@ class _WorkerFormState extends State<WorkerForm> {
         _locationStatus = 'Tap to get location';
       });
 
-      // Get fresh location for next registration
       _getCurrentLocation();
 
       Navigator.pop(context);
     } on FirebaseException catch (error) {
-      // This handles the permission denied error directly
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error registering worker: ${error.message}'),
@@ -339,7 +316,6 @@ class _WorkerFormState extends State<WorkerForm> {
 
   @override
   Widget build(BuildContext context) {
-    // The build method contains the original UI, preserved as requested.
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -359,7 +335,6 @@ class _WorkerFormState extends State<WorkerForm> {
           key: _formKey,
           child: Column(
             children: [
-              // Name Field
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
@@ -378,7 +353,6 @@ class _WorkerFormState extends State<WorkerForm> {
               ),
               const SizedBox(height: 12),
 
-              // Service Field
               TextFormField(
                 controller: _serviceController,
                 readOnly: true,
@@ -427,7 +401,6 @@ class _WorkerFormState extends State<WorkerForm> {
               ),
               const SizedBox(height: 12),
 
-              // Description Field
               TextFormField(
                 controller: _descriptionController,
                 maxLines: 4,
@@ -454,7 +427,6 @@ class _WorkerFormState extends State<WorkerForm> {
               ),
               const SizedBox(height: 12),
 
-              // Phone Field
               TextFormField(
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
@@ -481,7 +453,6 @@ class _WorkerFormState extends State<WorkerForm> {
               ),
               const SizedBox(height: 12),
 
-              // Location Card with geohash info
               Card(
                 elevation: 3,
                 shape: RoundedRectangleBorder(
@@ -524,7 +495,6 @@ class _WorkerFormState extends State<WorkerForm> {
                       ),
                       const SizedBox(height: 8),
 
-                      // Location Status
                       Text(
                         _locationStatus,
                         style: TextStyle(
@@ -535,7 +505,6 @@ class _WorkerFormState extends State<WorkerForm> {
                         ),
                       ),
 
-                      // Show location details if available
                       if (_place != null) ...[
                         const SizedBox(height: 8),
                         Row(
@@ -604,7 +573,6 @@ class _WorkerFormState extends State<WorkerForm> {
 
                       const SizedBox(height: 12),
 
-                      // Get Location Button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
@@ -633,7 +601,6 @@ class _WorkerFormState extends State<WorkerForm> {
                         ),
                       ),
 
-                      // Manual Entry Option
                       if (_place == null)
                         Align(
                           alignment: Alignment.centerRight,
@@ -647,7 +614,6 @@ class _WorkerFormState extends State<WorkerForm> {
                 ),
               ),
 
-              // Information about geo features
               if (_place != null && _latitude != null && _longitude != null)
                 Container(
                   margin: const EdgeInsets.only(top: 8),
@@ -679,7 +645,6 @@ class _WorkerFormState extends State<WorkerForm> {
 
               const SizedBox(height: 20),
 
-              // Submit Button
               SizedBox(
                 width: double.infinity,
                 height: 50,

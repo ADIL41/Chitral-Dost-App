@@ -9,12 +9,9 @@ class WorkerProfile extends StatelessWidget {
   final WorkerModel worker;
   const WorkerProfile({super.key, required this.worker});
 
-  // Updated to use the recommended modern approach (canLaunchUrl, launchUrl)
   Future<void> _makePhoneCall(String phoneNumber) async {
-    // Safely create the Uri
     final Uri launchUri = Uri.parse('tel:$phoneNumber');
 
-    // Check if the URL can be launched
     if (!await launchUrl(launchUri)) {
       throw Exception('Could not launch $launchUri');
     }
@@ -22,18 +19,15 @@ class WorkerProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // --- REQUIRED FIXES ARE HERE ---
     final String name = worker.name;
     final ServiceModel serviceModel = worker.service;
 
-    // 1. FIX: Initialize the service label by accessing the .label property of serviceModel
     final String serviceLabel = serviceModel.label;
 
     final String place = worker.place;
     final String phone = worker.phone;
     final String description = worker.description;
     final String? profilePictureUrl = worker.profilePictureUrl;
-    // --- END REQUIRED FIXES ---
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +35,7 @@ class WorkerProfile extends StatelessWidget {
           'Worker Profile',
           style: GoogleFonts.poppins(
             fontSize: 18,
-            // You may need to replace secondaryHeaderColor with a defined color
+
             color: Theme.of(context).secondaryHeaderColor,
             fontWeight: FontWeight.bold,
             letterSpacing: 2,
@@ -77,9 +71,8 @@ class WorkerProfile extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 65), // space for avatar
+                            const SizedBox(height: 65),
                             Text(
-                              // Using the correct local variable 'name'
                               name,
                               style: GoogleFonts.poppins(
                                 fontSize: 24,
@@ -90,7 +83,6 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              // 2. FIX: Use the correctly initialized 'serviceLabel' variable
                               serviceLabel,
                               style: GoogleFonts.inter(
                                 fontSize: 18,
@@ -100,7 +92,6 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              // Using the correct local variable 'place'
                               '📍  $place',
                               style: GoogleFonts.inter(
                                 fontSize: 16,
@@ -109,7 +100,6 @@ class WorkerProfile extends StatelessWidget {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              // Using the correct local variable 'phone'
                               '📞$phone',
                               style: GoogleFonts.inter(
                                 fontSize: 16,
@@ -120,25 +110,20 @@ class WorkerProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // ... (Avatar remains the same)
-                      // ✅ NEW CODE WITH PROFILE PICTURE LOGIC:
+
                       Positioned(
                         top: 4,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundColor: Colors
-                              .white, // Add a background color for contrast
-                          // Check if the URL is not null and not empty
+                          backgroundColor: Colors.white,
+
                           backgroundImage:
                               (profilePictureUrl != null &&
                                   profilePictureUrl.isNotEmpty)
-                              
                               ? CachedNetworkImageProvider(profilePictureUrl)
                                     as ImageProvider<Object>?
                               : null,
 
-                          // The child widget (the Icon) only shows if backgroundImage is null
-                          // (i.e., no picture URL found)
                           child:
                               (profilePictureUrl == null ||
                                   profilePictureUrl.isEmpty)
@@ -147,7 +132,7 @@ class WorkerProfile extends StatelessWidget {
                                   size: 60,
                                   color: Colors.black,
                                 )
-                              : null, // No child needed if the image is loading/loaded
+                              : null,
                         ),
                       ),
                     ],
@@ -157,7 +142,6 @@ class WorkerProfile extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // DESCRIPTION SECTION
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -182,7 +166,6 @@ class WorkerProfile extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      // Using the correct local variable 'description'
                       description,
                       style: GoogleFonts.inter(
                         fontSize: 14,
@@ -196,10 +179,8 @@ class WorkerProfile extends StatelessWidget {
 
             const SizedBox(height: 50),
 
-            // Call button functionality is correct
             ElevatedButton(
-              onPressed: () =>
-                  _makePhoneCall(phone), // Calls function with phone variable
+              onPressed: () => _makePhoneCall(phone),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightGreen,
                 fixedSize: const Size(275, 45),
