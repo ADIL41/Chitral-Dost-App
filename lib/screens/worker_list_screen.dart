@@ -138,7 +138,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                         // ignore: deprecated_member_use
                         ? Theme.of(
                             context,
-                          ).colorScheme.primary.withOpacity(0.15)
+                          ).colorScheme.primary.withValues(alpha: 0.15)
                         : Theme.of(context).colorScheme.surfaceContainerHighest,
                   ),
                 ],

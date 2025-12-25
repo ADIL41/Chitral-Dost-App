@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:chitral_dost_app/firebase_options.dart';
+import 'package:chitral_dost_app/provider/profile_provider.dart';
 import 'package:chitral_dost_app/provider/service_provider.dart';
+import 'package:chitral_dost_app/provider/worker_form_provider.dart';
 import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:chitral_dost_app/screens/bottom_navbar.dart';
 import 'package:chitral_dost_app/screens/login_screen.dart';
@@ -71,6 +73,8 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => WorkerFormProvider()),
         ChangeNotifierProvider(create: (context) => ServiceProvider()),
         ChangeNotifierProvider(create: (context) => WorkerProvider()),
       ],
@@ -79,7 +83,6 @@ class _MyAppState extends State<MyApp> {
         title: 'Chitral Dost',
         theme: AppTheme.lightTheme,
         themeMode: ThemeMode.system,
-
         home: _initialScreen,
       ),
     );
