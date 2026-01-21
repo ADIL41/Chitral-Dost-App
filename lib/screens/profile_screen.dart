@@ -79,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         backgroundColor: Colors.teal[800],
         title: Text(
-          'Profile Management',
+          'Profile ',
           style: GoogleFonts.poppins(
             color: Theme.of(context).secondaryHeaderColor,
             fontSize: 20,

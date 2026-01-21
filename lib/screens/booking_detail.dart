@@ -58,7 +58,7 @@ class _BookingDetailState extends State<BookingDetail> {
 
       body: Column(
         children: [
-          // Search Bar
+          
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
@@ -85,7 +85,7 @@ class _BookingDetailState extends State<BookingDetail> {
               ),
             ),
 
-          // Worker List Content
+          
           Expanded(child: _buildListContent(context, provider, workers)),
         ],
       ),

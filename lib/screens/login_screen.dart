@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: height * 0.08),
 
-              // Logo
+              
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.03),
 
-              // App Name
+              
               Text(
                 "Chitral Dost",
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.01),
 
-              // Tagline
+              
               Text(
                 "Your Trusted Partner for Home Services",
                 style: Theme.of(
@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.05),
 
-              // Login Form
+              
               Form(
                 key: _formKey,
                 child: Column(
@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: height * 0.05),
 
-                    // Login Button
+                    
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -228,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.03),
 
-              // Sign Up Option
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -28,7 +28,7 @@ class _WorkerFormView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              'Worker Registration',
+              ' Registration Form',
               style: GoogleFonts.poppins(
                 color: Theme.of(context).secondaryHeaderColor,
                 fontWeight: FontWeight.bold,

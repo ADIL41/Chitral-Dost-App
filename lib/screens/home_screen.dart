@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 12),
 
-            // Service Grid
+            
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 12),
 
-            // ServiceCard
+          
             AddSerciveCard(),
 
             const SizedBox(height: 20),
