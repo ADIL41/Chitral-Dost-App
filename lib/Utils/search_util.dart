@@ -1,4 +1,4 @@
-// lib/utils/search_utils.dart
+
 class WorkerSearch {
   static bool matchesQuery(Map<String, dynamic> data, String query) {
     final queryLower = query.toLowerCase();

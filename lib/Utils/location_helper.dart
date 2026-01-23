@@ -1,4 +1,4 @@
-// utils/location_helper.dart
+
 import 'package:geolocator/geolocator.dart';
 
 class LocationHelper {
@@ -26,7 +26,7 @@ class LocationHelper {
     );
   }
 
-  // Calculate distance between two coordinates in kilometers
+  
   static double calculateDistance(
     double startLat,
     double startLng,
@@ -34,6 +34,6 @@ class LocationHelper {
     double endLng,
   ) {
     return Geolocator.distanceBetween(startLat, startLng, endLat, endLng) /
-        1000; // Convert meters to kilometers
+        1000; 
   }
 }
