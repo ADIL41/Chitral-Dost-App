@@ -4,6 +4,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+String _getHumanReadableError(dynamic error) {
+  if (error is FirebaseAuthException) {
+    switch (error.code) {
+      case 'email-already-in-use':
+        return 'This email is already registered';
+      case 'invalid-email':
+        return 'Invalid email address';
+      case 'weak-password':
+        return 'Password is too weak';
+      case 'network-request-failed':
+        return 'Network error. Check your connection';
+      default:
+        return 'Sign up failed. Please try again';
+    }
+  }
+  return 'An unexpected error occurred';
+}
+
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -59,9 +77,12 @@ class _SignUpState extends State<SignUp> {
       );
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Sign up failed: $error')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_getHumanReadableError(error)),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } finally {
       if (mounted) {

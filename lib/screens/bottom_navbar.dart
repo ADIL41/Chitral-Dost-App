@@ -1,11 +1,9 @@
-import 'package:chitral_dost_app/provider/worker_provider.dart';
 import 'package:chitral_dost_app/screens/booking_detail.dart';
 import 'package:chitral_dost_app/screens/home_screen.dart';
 import 'package:chitral_dost_app/screens/profile_screen.dart';
 import 'package:chitral_dost_app/screens/setting_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});
@@ -70,11 +68,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
       case 0:
         return HomeScreen();
       case 1:
-        return Consumer<WorkerProvider>(
-          builder: (context, workerProvider, child) {
-            return BookingDetail();
-          },
-        );
+        return BookingDetail();
       case 2:
         return ProfileScreen();
       case 3:

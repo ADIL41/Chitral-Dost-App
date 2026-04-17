@@ -157,9 +157,11 @@ class WorkerFormProvider with ChangeNotifier {
             child: const Text('OK'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              getCurrentLocation(context);
+              if (context.mounted) {
+                await getCurrentLocation(context);
+              }
             },
             child: const Text('Retry'),
           ),
@@ -170,17 +172,46 @@ class WorkerFormProvider with ChangeNotifier {
 
   void _showManualLocationDialog(BuildContext context) {
     final manualPlaceController = TextEditingController();
+    final latController = TextEditingController();
+    final lngController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Enter Location Manually'),
-        content: TextField(
-          controller: manualPlaceController,
-          decoration: const InputDecoration(
-            hintText: 'Enter your city/town/village',
-            border: OutlineInputBorder(),
-          ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: manualPlaceController,
+              decoration: const InputDecoration(
+                hintText: 'Enter your city/town/village',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: latController,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
+                hintText: 'Latitude (e.g., 35.8511)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: lngController,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
+                hintText: 'Longitude (e.g., 71.7861)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -193,8 +224,10 @@ class WorkerFormProvider with ChangeNotifier {
                 place = manualPlaceController.text;
                 locationStatus = 'Manual location entered';
 
-                latitude = 35.8511;
-                longitude = 71.7861;
+                final lat = double.tryParse(latController.text);
+                final lng = double.tryParse(lngController.text);
+                latitude = lat;
+                longitude = lng;
 
                 notifyListeners();
                 Navigator.pop(context);

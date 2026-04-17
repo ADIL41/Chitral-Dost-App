@@ -27,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String _getHumanReadableError(dynamic error) {
+    String errorMessage = error.toString().toLowerCase();
+
     if (error is FirebaseAuthException) {
       switch (error.code) {
         case 'user-not-found':
@@ -42,10 +44,30 @@ class _LoginScreenState extends State<LoginScreen> {
         case 'network-request-failed':
           return 'Network error. Check your connection';
         default:
-          return 'Login failed. Please try again';
+          return error.message ?? 'Login failed. Please try again';
       }
     }
-    return 'An unexpected error occurred';
+
+    if (errorMessage.contains('user-not-found') ||
+        errorMessage.contains('no user')) {
+      return 'No account found with this email';
+    }
+    if (errorMessage.contains('wrong-password') ||
+        errorMessage.contains('incorrect password')) {
+      return 'Incorrect password';
+    }
+    if (errorMessage.contains('invalid-email')) {
+      return 'Invalid email address';
+    }
+    if (errorMessage.contains('network')) {
+      return 'Network error. Check your connection';
+    }
+    if (errorMessage.contains('too-many') ||
+        errorMessage.contains('attempts')) {
+      return 'Too many attempts. Try again later';
+    }
+
+    return 'Login failed. Please try again';
   }
 
   Future<void> _loginUser() async {
@@ -62,8 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
           );
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
-      await prefs.setString('userId', userCredential.user?.uid ?? '');
-      await prefs.setString('userEmail', userCredential.user?.email ?? '');
+      if (userCredential.user?.uid != null) {
+        await prefs.setString('userId', userCredential.user!.uid);
+      }
+      if (userCredential.user?.email != null) {
+        await prefs.setString('userEmail', userCredential.user!.email!);
+      }
 
       if (!mounted) return;
       Navigator.pushAndRemoveUntil(
@@ -112,7 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: height * 0.08),
 
-              
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
@@ -121,7 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.03),
 
-              
               Text(
                 "Chitral Dost",
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
@@ -131,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.01),
 
-              
               Text(
                 "Your Trusted Partner for Home Services",
                 style: Theme.of(
@@ -141,7 +164,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.05),
 
-              
               Form(
                 key: _formKey,
                 child: Column(
@@ -207,7 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: height * 0.05),
 
-                    
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -228,7 +249,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height * 0.03),
 
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

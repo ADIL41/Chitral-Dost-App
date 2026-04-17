@@ -11,8 +11,9 @@ class WorkerForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => WorkerFormProvider(),
+    final provider = context.read<WorkerFormProvider>();
+    return ChangeNotifierProvider.value(
+      value: provider,
       child: const _WorkerFormView(),
     );
   }

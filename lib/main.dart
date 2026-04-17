@@ -34,17 +34,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Widget? _initialScreen;
+  late final ProfileProvider profileProvider;
+  late final WorkerFormProvider workerFormProvider;
+  late final ServiceProvider serviceProvider;
+  late final WorkerProvider workerProvider;
 
   @override
   void initState() {
     super.initState();
-
+    profileProvider = ProfileProvider();
+    workerFormProvider = WorkerFormProvider();
+    serviceProvider = ServiceProvider();
+    workerProvider = WorkerProvider();
     _determineInitialScreen();
   }
 
   Future<void> _determineInitialScreen() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? isFirstTime = prefs.getBool('isFirstTime');
     bool? isLoggedIn = prefs.getBool('isLoggedIn');
@@ -60,7 +65,9 @@ class _MyAppState extends State<MyApp> {
 
     FlutterNativeSplash.remove();
 
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -73,10 +80,10 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ProfileProvider()),
-        ChangeNotifierProvider(create: (context) => WorkerFormProvider()),
-        ChangeNotifierProvider(create: (context) => ServiceProvider()),
-        ChangeNotifierProvider(create: (context) => WorkerProvider()),
+        ChangeNotifierProvider.value(value: profileProvider),
+        ChangeNotifierProvider.value(value: workerFormProvider),
+        ChangeNotifierProvider.value(value: serviceProvider),
+        ChangeNotifierProvider.value(value: workerProvider),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -48,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Logout failed: $error'),
+            content: Text('Logout failed. Please try again'),
             backgroundColor: Colors.red,
           ),
         );

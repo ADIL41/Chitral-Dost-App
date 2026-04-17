@@ -132,7 +132,7 @@ class ProfileProvider with ChangeNotifier {
 
         if (isWorker) {
           final workerDocRef = db.collection('workers').doc(uid);
-          batch.update(workerDocRef, updateData);
+          batch.set(workerDocRef, updateData, SetOptions(merge: true));
         }
 
         await batch.commit();
