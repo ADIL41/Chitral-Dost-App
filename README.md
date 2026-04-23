@@ -90,16 +90,7 @@ lib/
 └── utils/           # Constants, helpers
 ```
 
----
 
-## 🗺️ Roadmap
-
-- [ ] Google Play Store release
-- [ ] iOS App Store release (TestFlight testing pending)
-- [ ] In-app booking & scheduling system
-- [ ] Ratings & reviews for service providers
-- [ ] Push notifications for booking updates
-- [ ] Multi-language support (Urdu / Khowar)
 
 ---
 
